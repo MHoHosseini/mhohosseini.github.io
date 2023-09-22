@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 permalink: /robots.txt
 ---
@@ -5,3 +6,9 @@ User-agent: *
 Disallow:
 
 Sitemap: {{ site.baseurl | prepend: site.url }}/sitemap.xml
+=======
+User-agent: *
+Disallow:
+
+Sitemap: mhohosseini.github.io/sitemap.xml
+>>>>>>> ed4db9736df784e71a6530773c6ee409fb0006e5
