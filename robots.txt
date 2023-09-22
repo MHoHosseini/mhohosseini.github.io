@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: mhohosseini.github.io/about//sitemap.xml
+Sitemap: mhohosseini.github.io/sitemap.xml
