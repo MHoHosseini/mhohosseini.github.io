@@ -1,10 +1,11 @@
 ---
 layout: page
-title: project 6
+title: Variational Auto Encoder
 description: a project with no image
-img:
+img: assets/img/vae.png
+redirect: https://mhohosseini.github.io/projects/
 importance: 4
-category: fun
+category: Generative Models
 ---
 
 Every project has a beautiful feature showcase page.

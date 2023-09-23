@@ -1,10 +1,11 @@
 ---
 layout: page
-title: project 2
+title: Implicit Diffusion
 description: a project with a background image and giscus comments
-img: assets/img/3.jpg
+img: assets/img/ddim.png
+redirect: https://mhohosseini.github.io/projects/
 importance: 2
-category: work
+category: Generative Models
 giscus_comments: true
 ---
 

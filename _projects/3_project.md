@@ -1,11 +1,11 @@
 ---
 layout: page
-title: project 3
+title: PixelCNN
 description: a project that redirects to another website
-img: assets/img/7.jpg
-redirect: https://unsplash.com
+img: assets/img/autoregressive.png
+redirect: https://mhohosseini.github.io/projects/
 importance: 3
-category: work
+category: Generative Models
 ---
 
 Every project has a beautiful feature showcase page.

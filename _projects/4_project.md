@@ -1,10 +1,11 @@
 ---
 layout: page
-title: project 4
+title: Normalizing Flows
 description: another without an image
-img:
+img: assets/img/nflows.png
+redirect: https://mhohosseini.github.io/projects/
 importance: 3
-category: fun
+category: Generative Models
 ---
 
 Every project has a beautiful feature showcase page.
