@@ -8,8 +8,8 @@ nav_order: 5
 display_categories: [Computer Science, Machine Learning]
 horizontal: false
 ---
-<!-- pages/projects.md -->
-<div class="projects">
+<!-- pages/teaching.md -->
+<div class="teaching">
 {%- if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->
   {%- for category in page.display_categories %}
