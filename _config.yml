@@ -2,8 +2,8 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: blank # the website title (if blank, full name will be used instead)
-first_name: Mohammad
+title:  # the website title (if blank, full name will be used instead)
+first_name: S. Mohammad
 middle_name: H.
 last_name: Hosseini D.
 email: m.ho.hosseini@gmail.com
