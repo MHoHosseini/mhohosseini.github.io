@@ -2,7 +2,7 @@
   type: map
   contents:
     - name: Full Name
-      value: Albert Einstein
+      value: Seyed MohammadHossein Hosseini Dastjae
     - name: Date of Birth
       value: 14th March 1879
     - name: Languages
@@ -11,11 +11,11 @@
 - title: Education
   type: time_table
   contents:
-    - title: PhD
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1905
+    - title: B.Sc.
+      institution: University of Isfahan, Isfahan, Iran
+      year: 2023
       description:
-        - Description 1.
+        - Thesis:"Photo Enhancement via Generative Models".
         - Description 2.
         - title: Description 3.
           contents:
