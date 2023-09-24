@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href=https://comp.ui.ac.ir/en>University of Isfahan</a>, Hezarjarib Ave., Isfahan, Iran.
+subtitle: <a href=https://comp.ui.ac.ir/en>University of Isfahan</a>, Isfahan, Iran.
 
 profile:
   align: right
