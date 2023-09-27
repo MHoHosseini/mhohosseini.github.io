@@ -5,7 +5,7 @@ permalink: /projects/
 description: A growing collection of my projects. Instructions on how to implement them will be added soon. If you have any questions drop me an Email.
 nav: true
 nav_order: 2
-display_categories: [Generative Models, Inference and Density Estimation, Computer Vision, Natural Lagnuage Processing,  Graph Neural Networks]
+display_categories: [Generative Models,Inference and Density Estimation ,Computer Vision,Natural Language Processing, Graph Neural Networks]
 horizontal: false
 ---
 
