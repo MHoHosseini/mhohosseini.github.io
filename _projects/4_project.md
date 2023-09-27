@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Normalizing Flows
-description: another without an image
+description: Go with the flow.
 img: assets/img/nflows.png
 redirect: https://mhohosseini.github.io/projects/
 importance: 3

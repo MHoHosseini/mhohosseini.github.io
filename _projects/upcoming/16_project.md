@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Variational Auto Encoder
-description: It's all about the "Variational".
-img: assets/img/vae.png
+title: Normalizing Flows
+description: another without an image
+img: assets/img/nflows.png
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
+importance: 3
 category: Generative Models
 ---
 

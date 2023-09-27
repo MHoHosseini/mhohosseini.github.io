@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Variational Auto Encoder
-description: It's all about the "Variational".
-img: assets/img/vae.png
+title: Automatic Differentiation Variational Inference
+description: a project with a background image
+img: assets/img/advi.png
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
-category: Generative Models
+importance: 3
+category: Inference and Density Estimation
 ---
 
 Every project has a beautiful feature showcase page.

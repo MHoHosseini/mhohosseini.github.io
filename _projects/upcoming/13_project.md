@@ -1,11 +1,12 @@
 ---
 layout: page
-title: Variational Auto Encoder
-description: It's all about the "Variational".
-img: assets/img/vae.png
+title: Probabilistic Diffusion
+description: a project with a background image
+img: assets/img/diffusion_pgm.png
+importance: 1
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
 category: Generative Models
+related_publications: einstein1956investigations, einstein1950meaning
 ---
 
 Every project has a beautiful feature showcase page.
@@ -20,7 +21,7 @@ To give your project a background in the portfolio page, just add the img tag to
     description: a project with a background image
     img: /assets/img/12.jpg
     ---
-
+<!-- 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
@@ -78,4 +79,4 @@ Here's the code for the last row of images above:
     </div>
 </div>
 ```
-{% endraw %}
+{% endraw %} -->

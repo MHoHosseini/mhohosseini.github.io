@@ -1,7 +1,7 @@
 ---
 layout: page
 title: GAN and EBGAN
-description: a project with a background image
+description: It's a GAN, but better.
 img: assets/img/ebgan.png
 redirect: https://mhohosseini.github.io/projects/
 importance: 3

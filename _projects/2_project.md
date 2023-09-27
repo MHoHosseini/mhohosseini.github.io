@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Implicit Diffusion
-description: a project with a background image and giscus comments
+description: Forgot x0?
 img: assets/img/ddim.png
 redirect: https://mhohosseini.github.io/projects/
 importance: 2

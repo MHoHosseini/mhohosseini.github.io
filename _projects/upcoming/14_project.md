@@ -1,11 +1,12 @@
 ---
 layout: page
-title: Variational Auto Encoder
-description: It's all about the "Variational".
-img: assets/img/vae.png
+title: Implicit Diffusion
+description: a project with a background image and giscus comments
+img: assets/img/ddim.png
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
+importance: 2
 category: Generative Models
+giscus_comments: true
 ---
 
 Every project has a beautiful feature showcase page.

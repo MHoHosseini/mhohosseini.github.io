@@ -1,11 +1,12 @@
 ---
 layout: page
-title: Variational Auto Encoder
-description: It's all about the "Variational".
-img: assets/img/vae.png
+title: Vision Transfomer (ViT)
+description: Did you see that?
+img: assets/img/vit.png
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
-category: Generative Models
+importance: 2
+category: Computer Vision
+giscus_comments: true
 ---
 
 Every project has a beautiful feature showcase page.

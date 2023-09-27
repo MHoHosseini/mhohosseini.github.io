@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Variational Auto Encoder
-description: It's all about the "Variational".
-img: assets/img/vae.png
+title: PixelCNN
+description: a project that redirects to another website
+img: assets/img/autoregressive.png
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
+importance: 3
 category: Generative Models
 ---
 

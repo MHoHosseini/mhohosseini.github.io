@@ -1,7 +1,7 @@
 ---
 layout: page
 title: PixelCNN
-description: a project that redirects to another website
+description: Chain rule on stroids.
 img: assets/img/autoregressive.png
 redirect: https://mhohosseini.github.io/projects/
 importance: 3

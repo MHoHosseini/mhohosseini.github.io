@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Variational Auto Encoder
-description: It's all about the "Variational".
+description: a project with no image
 img: assets/img/vae.png
 redirect: https://mhohosseini.github.io/projects/
 importance: 4

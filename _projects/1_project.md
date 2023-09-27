@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Probabilistic Diffusion
-description: a project with a background image
+description: Denoise, Generate
 img: assets/img/diffusion_pgm.png
 importance: 1
 redirect: https://mhohosseini.github.io/projects/
