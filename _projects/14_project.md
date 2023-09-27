@@ -1,11 +1,12 @@
 ---
 layout: page
-title: Summarization with T5
-description: Too many Ts.
-img: assets/img/t5.png
+title: Graph Convolution
+description: Here comed convolution.
+img: assets/img/ddim.png
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
-category: Natural Language Processing
+importance: 2
+category: Graph Neural Networks
+giscus_comments: true
 ---
 
 Every project has a beautiful feature showcase page.

@@ -1,11 +1,12 @@
 ---
 layout: page
-title: Summarization with T5
-description: Too many Ts.
-img: assets/img/t5.png
+title: Graph Attention
+description: (Graph) Attention is All You Need
+img: assets/img/gat.png
+importance: 1
 redirect: https://mhohosseini.github.io/projects/
-importance: 4
-category: Natural Language Processing
+category: Graph Neural Networks
+related_publications: einstein1956investigations, einstein1950meaning
 ---
 
 Every project has a beautiful feature showcase page.
@@ -20,7 +21,7 @@ To give your project a background in the portfolio page, just add the img tag to
     description: a project with a background image
     img: /assets/img/12.jpg
     ---
-
+<!-- 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
@@ -78,4 +79,4 @@ Here's the code for the last row of images above:
     </div>
 </div>
 ```
-{% endraw %}
+{% endraw %} -->

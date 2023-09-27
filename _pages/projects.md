@@ -2,10 +2,10 @@
 layout: page
 title: projects
 permalink: /projects/
-description: A growing collection of your cool projects.
+description: A growing collection of my projects. Instructions on how to implement them will be added soon.
 nav: true
 nav_order: 2
-display_categories: [Generative Models, Computer Vision, Natural Laguage Processing, Inference and Density Estimation, Graph Neural Networks]
+display_categories: [Generative Models, Inference and Density Estimation, Computer Vision, Natural Laguage Processing,  Graph Neural Networks]
 horizontal: false
 ---
 
