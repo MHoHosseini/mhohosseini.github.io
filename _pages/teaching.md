@@ -5,6 +5,8 @@ title: teaching
 description: Materials for courses you taught. Replace this text with your description.
 nav: true
 nav_order: 5
+display_categories: [Computer Science, Machine Learning]
+horizontal: false
 ---
 <!-- pages/teaching.md -->
 <div class="teachings">
