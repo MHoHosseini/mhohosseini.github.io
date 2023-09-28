@@ -4,7 +4,7 @@ title: teaching 5
 description: a teaching with a background image
 img: assets/img/1.jpg
 importance: 3
-category: fun
+category: Machine Learning
 ---
 
 Every teaching has a beautiful feature showcase page.

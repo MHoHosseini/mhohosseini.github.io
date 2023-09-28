@@ -5,7 +5,7 @@ description: a teaching that redirects to another website
 img: assets/img/7.jpg
 redirect: https://unsplash.com
 importance: 3
-category: work
+category: Machine Learning
 ---
 
 Every teaching has a beautiful feature showcase page.
