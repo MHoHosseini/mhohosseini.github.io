@@ -4,7 +4,7 @@ title: teaching 6
 description: a teaching with no image
 img:
 importance: 4
-category: fun
+category: Computer Science
 ---
 
 Every teaching has a beautiful feature showcase page.

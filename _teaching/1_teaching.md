@@ -4,7 +4,7 @@ title: teaching 1
 description: a teaching with a background image
 img: assets/img/12.jpg
 importance: 1
-category: work
+category: Machine Learning
 related_publications: einstein1956investigations, einstein1950meaning
 ---
 
