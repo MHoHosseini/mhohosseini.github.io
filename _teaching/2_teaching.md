@@ -1,7 +1,7 @@
 ---
 layout: page
-title: teaching 2
-description: Lab Instructor for Advanced Programming Concepts (Java)
+title: Advanced Programming Concept
+description: Teaching Assistant for Advanced Programming Concepts (Java)
 img: assets/img/apj.png
 importance: 2
 redirect: https://mhohosseini.github.io/teaching/
