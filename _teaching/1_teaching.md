@@ -1,8 +1,9 @@
 ---
 layout: page
-title: teaching 1
-description: a teaching with a background image
+title: Deep Learning (PyTorch)
+description: Instructor of Online Course on Deep Learning for University of Isfahan
 img: assets/img/12.jpg
+redirect: https://mhohosseini.github.io/teaching/
 importance: 1
 category: Machine Learning
 related_publications: einstein1956investigations, einstein1950meaning

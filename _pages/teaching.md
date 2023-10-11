@@ -2,10 +2,10 @@
 layout: page
 permalink: /teaching/
 title: teaching
-description: Materials for courses you taught. Replace this text with your description.
+description: Courses I have been a part of can be found here. More material will drop soon.
 nav: true
 nav_order: 5
-display_categories: [Computer Science, Machine Learning]
+display_categories: [Machine Learning, Computer Science]
 horizontal: false
 ---
 <!-- pages/teaching.md -->

@@ -1,9 +1,10 @@
 ---
 layout: page
 title: teaching 2
-description: a teaching with a background image and giscus comments
-img: assets/img/3.jpg
+description: Lab Instructor for Advanced Programming Concepts (Java)
+img: assets/img/apj.png
 importance: 2
+redirect: https://mhohosseini.github.io/teaching/
 category: Computer Science
 giscus_comments: true
 ---
