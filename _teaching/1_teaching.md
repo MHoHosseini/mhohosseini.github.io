@@ -2,7 +2,7 @@
 layout: page
 title: Deep Learning (PyTorch)
 description: Instructor of Online Course on Deep Learning for University of Isfahan
-img: assets/img/12.jpg
+img: assets/img/dl.png
 redirect: https://mhohosseini.github.io/teaching/
 importance: 1
 category: Machine Learning
