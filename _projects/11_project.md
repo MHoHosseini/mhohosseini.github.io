@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Automatic Differentiation Variational Inference
-description: a project with a background image
+description: Deep Learning Bringer.
 img: assets/img/advi.png
 redirect: https://mhohosseini.github.io/projects/
 importance: 3

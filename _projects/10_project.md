@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Mean-field Variational Inference
-description: another without an image
+description: Mean but Weak.
 img: assets/img/mfvi.png
 redirect: https://mhohosseini.github.io/projects/
 importance: 3
