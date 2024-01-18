@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I defended my B.Sc. thesis titled "Photo Enhancement via Generative Models".
+I defended my B.Sc. thesis titled which incorporated Image Enhancers in Verification Systems.
