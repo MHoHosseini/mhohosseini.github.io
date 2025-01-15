@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I defended my B.Sc. thesis titled which incorporated Image Enhancers in Verification Systems.
+I defended my B.Sc. thesis working on a verification system with and Image enhancement route!
