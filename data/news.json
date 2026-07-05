@@ -1,0 +1,16 @@
+{
+  "news": [
+    {
+      "date": "2025-01",
+      "html": "New manuscript in preparation: <em>Boosting the SDE Framework of Generative Models towards Time-Series Data</em>."
+    },
+    {
+      "date": "2024",
+      "html": "Paper <em>Enhancing Meta-Learning Retail Forecasting with Diffusion</em> submitted to the European Journal of Operational Research (EJOR)."
+    },
+    {
+      "date": "2023-06",
+      "html": "Defended my B.Sc. thesis at the University of Isfahan — a verification system built around a generative image-enhancement pipeline."
+    }
+  ]
+}

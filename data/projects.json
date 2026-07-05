@@ -1,0 +1,350 @@
+{
+  "categories": [
+    "Generative Models",
+    "Inference & Density Estimation",
+    "Computer Vision",
+    "Natural Language Processing",
+    "Graph Neural Networks"
+  ],
+  "projects": [
+    {
+      "id": "probabilistic-diffusion",
+      "title": "Probabilistic Diffusion",
+      "tagline": "Turn noise into structure by learning to reverse a gradual diffusion.",
+      "category": "Generative Models",
+      "importance": 1,
+      "featured": true,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "diffusion_pgm.png",
+      "tags": ["Diffusion", "Score matching", "Denoising"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/2006.11239", "reference_label": "Ho et al., DDPM (2020)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Denoising diffusion probabilistic models generate data by inverting a fixed noising process: samples are corrupted toward pure Gaussian noise over many steps, and a neural network learns to walk that trajectory backwards. The appeal is that a hard sampling problem is decomposed into a long sequence of easy denoising problems."
+        ]},
+        { "heading": "Method", "body": [
+          "A forward Markov chain adds Gaussian noise on a fixed variance schedule $\\beta_t$. Because Gaussians compose, any noise level is reachable in closed form, which makes training a simple regression: predict the noise $\\epsilon$ that was added at a randomly sampled timestep."
+        ], "equation": "q(x_t \\mid x_0) = \\mathcal{N}\\!\\left(x_t;\\ \\sqrt{\\bar\\alpha_t}\\,x_0,\\ (1-\\bar\\alpha_t)\\mathbf{I}\\right)" },
+        { "heading": "Mathematical core", "body": [
+          "The training objective reduces to a weighted denoising loss, and the learned network approximates the *score* of the noised data distribution — the gradient of its log-density. Reversing the chain is then equivalent to following that score field back toward the data manifold, which connects the discrete model to a continuous-time stochastic differential equation."
+        ], "equation": "\\mathcal{L}_{\\text{simple}} = \\mathbb{E}_{t,\\,x_0,\\,\\epsilon}\\Big[\\,\\lVert \\epsilon - \\epsilon_\\theta(x_t, t)\\rVert^2\\,\\Big]" },
+        { "heading": "Notes", "body": [
+          "Implemented and studied as part of my work on the stochastic-calculus view of generative modeling. It is the entry point to the score-based SDE framework that underlies my publications on diffusion for time-series data."
+        ]}
+      ]
+    },
+    {
+      "id": "implicit-diffusion",
+      "title": "Implicit Diffusion (DDIM)",
+      "tagline": "Deterministic, few-step sampling from a diffusion model — without retraining.",
+      "category": "Generative Models",
+      "importance": 2,
+      "featured": true,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "ddim.png",
+      "tags": ["DDIM", "ODE sampler", "Fast sampling"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/2010.02502", "reference_label": "Song et al., DDIM (2020)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Standard diffusion sampling is slow — hundreds of stochastic steps. Denoising Diffusion Implicit Models keep the same training objective but replace the sampler with a non-Markovian, deterministic process, cutting the number of steps by an order of magnitude while preserving sample quality."
+        ]},
+        { "heading": "Method", "body": [
+          "DDIM defines a family of inference processes that share the marginals of the diffusion forward chain but need not be Markovian. Setting the injected noise to zero yields a deterministic map from latent to sample — effectively an ODE integrator over the same score field."
+        ], "equation": "x_{t-1} = \\sqrt{\\bar\\alpha_{t-1}}\\,\\hat{x}_0 + \\sqrt{1-\\bar\\alpha_{t-1}}\\;\\epsilon_\\theta(x_t,t)" },
+        { "heading": "Mathematical core", "body": [
+          "Because sampling becomes deterministic, the latent code acquires a meaningful geometry: interpolating in latent space produces smooth semantic transitions, and the forward map is (approximately) invertible. This is the bridge from diffusion to the probability-flow ODE and to continuous normalizing flows."
+        ]}
+      ]
+    },
+    {
+      "id": "pixelcnn",
+      "title": "PixelCNN",
+      "tagline": "Exact-likelihood image modeling, one pixel at a time.",
+      "category": "Generative Models",
+      "importance": 3,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2022",
+      "image": "autoregressive.png",
+      "tags": ["Autoregressive", "Exact likelihood", "Masked convolutions"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1606.05328", "reference_label": "van den Oord et al. (2016)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Autoregressive models factorize a joint distribution into a product of conditionals via the chain rule of probability. For images this means predicting each pixel from the pixels already seen — giving a tractable, exact likelihood at the cost of sequential sampling."
+        ]},
+        { "heading": "Method", "body": [
+          "PixelCNN enforces the autoregressive ordering with masked convolutions, so each output depends only on pixels above and to the left. Colour channels are handled with a further conditional factorization within each pixel."
+        ], "equation": "p(x) = \\prod_{i=1}^{n^2} p\\!\\left(x_i \\mid x_1,\\dots,x_{i-1}\\right)" },
+        { "heading": "Mathematical core", "body": [
+          "The chain rule turns density estimation into a supervised classification problem over pixel intensities. This exact-likelihood viewpoint is a useful contrast to the implicit likelihoods of GANs and the variational bounds of VAEs."
+        ]}
+      ]
+    },
+    {
+      "id": "normalizing-flows",
+      "title": "Normalizing Flows",
+      "tagline": "Exact densities through invertible, differentiable transformations.",
+      "category": "Generative Models",
+      "importance": 2,
+      "featured": true,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "nflows.png",
+      "tags": ["Change of variables", "Invertible nets", "Neural ODEs"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1505.05770", "reference_label": "Rezende & Mohamed (2015)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Normalizing flows build a complex distribution by pushing a simple base density through a sequence of invertible maps. Unlike VAEs or GANs, they give an *exact* likelihood — the price is that every layer must be invertible with a tractable Jacobian determinant."
+        ]},
+        { "heading": "Method", "body": [
+          "The change-of-variables formula converts a base density into the model density. Architectures such as coupling layers and autoregressive flows are engineered so the Jacobian is triangular, making its determinant cheap to compute."
+        ], "equation": "\\log p_X(x) = \\log p_Z\\!\\big(f(x)\\big) + \\log\\left|\\det \\frac{\\partial f}{\\partial x}\\right|" },
+        { "heading": "Mathematical core", "body": [
+          "In the continuous limit a flow becomes a Neural ODE: the transformation is the solution of an ordinary differential equation, and the log-density evolves by the instantaneous change-of-variables (an integral of the vector field's divergence). This is exactly the homeomorphism-interpolation perspective I care about — flows deform space continuously while preserving its topology."
+        ], "equation": "\\frac{\\partial \\log p(z(t))}{\\partial t} = -\\,\\mathrm{tr}\\!\\left(\\frac{\\partial f}{\\partial z(t)}\\right)" }
+      ]
+    },
+    {
+      "id": "gan-ebgan",
+      "title": "GAN & EBGAN",
+      "tagline": "Generation as a game — and as energy minimization.",
+      "category": "Generative Models",
+      "importance": 3,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2022",
+      "image": "ebgan.png",
+      "tags": ["Adversarial", "Energy-based", "Minimax"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1609.03126", "reference_label": "Zhao et al., EBGAN (2016)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Generative adversarial networks learn an implicit sampler by pitting a generator against a discriminator. The Energy-Based GAN reframes the discriminator as an energy function — low energy near the data manifold, high energy elsewhere — which stabilizes training and connects GANs to the energy-based modeling tradition."
+        ]},
+        { "heading": "Method", "body": [
+          "The classic GAN optimizes a minimax objective; at the optimum the generator matches the data distribution and the discriminator is maximally uncertain. EBGAN replaces the binary discriminator with an autoencoder whose reconstruction error acts as energy, trained with a margin loss."
+        ], "equation": "\\min_G \\max_D\\ \\mathbb{E}_{x\\sim p_{\\text{data}}}[\\log D(x)] + \\mathbb{E}_{z\\sim p_z}[\\log(1 - D(G(z)))]" },
+        { "heading": "Mathematical core", "body": [
+          "Viewing the discriminator as an energy surface makes the geometry of the data manifold explicit and links adversarial training to score-based and diffusion methods, where the learned object is likewise a landscape over data space."
+        ]}
+      ]
+    },
+    {
+      "id": "variational-autoencoder",
+      "title": "Variational Autoencoder",
+      "tagline": "Amortized inference and generation through a learned latent space.",
+      "category": "Generative Models",
+      "importance": 4,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2022",
+      "image": "vae.png",
+      "tags": ["Latent variables", "ELBO", "Reparameterization"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1312.6114", "reference_label": "Kingma & Welling (2013)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "The variational autoencoder pairs a probabilistic decoder with an amortized inference network, learning a smooth latent representation of the data. It is the canonical example of turning intractable posterior inference into optimization of a variational bound."
+        ]},
+        { "heading": "Method", "body": [
+          "Training maximizes the evidence lower bound (ELBO): a reconstruction term plus a KL regularizer that pulls the approximate posterior toward the prior. The reparameterization trick makes the whole objective differentiable end-to-end."
+        ], "equation": "\\mathcal{L}(\\theta,\\phi;x) = \\mathbb{E}_{q_\\phi(z\\mid x)}\\!\\big[\\log p_\\theta(x\\mid z)\\big] - D_{\\mathrm{KL}}\\!\\big(q_\\phi(z\\mid x)\\,\\|\\,p(z)\\big)" },
+        { "heading": "Mathematical core", "body": [
+          "The ELBO is the same variational principle that reappears across inference and diffusion. Studying the VAE clarifies the trade-off between reconstruction fidelity and latent regularity, and the geometry the KL term imposes on the latent manifold."
+        ]}
+      ]
+    },
+    {
+      "id": "expectation-maximization",
+      "title": "Expectation–Maximization",
+      "tagline": "Fitting latent-variable models by iterated lower-bound maximization.",
+      "category": "Inference & Density Estimation",
+      "importance": 1,
+      "featured": true,
+      "status": "Study & implementation",
+      "year": "2022",
+      "image": "em.gif",
+      "tags": ["EM", "Latent variables", "Mixture models"],
+      "links": { "code": "", "paper": "", "reference": "https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm", "reference_label": "Dempster, Laird & Rubin (1977)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Expectation–Maximization is the workhorse for maximum-likelihood estimation when data are incomplete or governed by latent variables — Gaussian mixtures being the classic case. It alternates between inferring the latent responsibilities and re-fitting the parameters."
+        ]},
+        { "heading": "Method", "body": [
+          "The E-step computes the posterior over latent variables under current parameters; the M-step maximizes the expected complete-data log-likelihood. Each iteration is guaranteed not to decrease the observed-data likelihood."
+        ], "equation": "Q(\\theta \\mid \\theta^{(t)}) = \\mathbb{E}_{z\\sim p(z\\mid x,\\theta^{(t)})}\\big[\\log p(x,z\\mid\\theta)\\big]" },
+        { "heading": "Mathematical core", "body": [
+          "EM is variational inference in disguise: the E-step tightens a lower bound by setting the variational distribution to the exact posterior, and the M-step raises the bound. This makes it the natural stepping stone to mean-field VI and ADVI."
+        ]}
+      ]
+    },
+    {
+      "id": "mean-field-vi",
+      "title": "Mean-Field Variational Inference",
+      "tagline": "Approximate posteriors that factorize — fast, but blind to correlations.",
+      "category": "Inference & Density Estimation",
+      "importance": 2,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "mfvi.png",
+      "tags": ["Variational inference", "Mean field", "ELBO"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1601.00670", "reference_label": "Blei, Kucukelbir & McAuliffe (2017)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Mean-field variational inference approximates an intractable posterior with a fully factorized distribution, turning inference into optimization. It is fast and scalable, at the cost of ignoring dependencies between latent variables."
+        ]},
+        { "heading": "Method", "body": [
+          "Under the mean-field assumption the ELBO admits coordinate-ascent updates in closed form for conjugate models: each factor is updated to the exponentiated expected log-joint under the others."
+        ], "equation": "q^\\star(z) = \\prod_i q_i(z_i), \\qquad \\log q_j^\\star(z_j) \\propto \\mathbb{E}_{-j}\\big[\\log p(x,z)\\big]" },
+        { "heading": "Mathematical core", "body": [
+          "Minimizing the reverse KL from approximation to posterior is what gives mean-field its characteristic under-dispersion. Understanding that bias — and when it matters — motivates richer families and the automatic methods below."
+        ]}
+      ]
+    },
+    {
+      "id": "advi",
+      "title": "Automatic Differentiation VI",
+      "tagline": "Black-box variational inference for any differentiable model.",
+      "category": "Inference & Density Estimation",
+      "importance": 3,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "advi.png",
+      "tags": ["ADVI", "Autodiff", "Stochastic optimization"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1603.00788", "reference_label": "Kucukelbir et al. (2016)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Automatic Differentiation Variational Inference removes the manual derivations of classical VI. Given any differentiable probabilistic model, it transforms constrained variables to an unconstrained space and optimizes the ELBO with stochastic gradients."
+        ]},
+        { "heading": "Method", "body": [
+          "ADVI maps the support of each parameter to the reals, places a Gaussian variational family there, and estimates ELBO gradients by Monte-Carlo sampling through the reparameterization trick — the same estimator that powers the VAE."
+        ], "equation": "\\nabla_{\\phi}\\,\\mathbb{E}_{q_\\phi}[\\log p(x,z) - \\log q_\\phi(z)]" },
+        { "heading": "Mathematical core", "body": [
+          "ADVI is where variational inference meets modern autodiff and deep learning: it made VI a general-purpose tool and foreshadows the amortized, gradient-based inference used throughout generative modeling."
+        ]}
+      ]
+    },
+    {
+      "id": "persistent-homology",
+      "title": "Persistent Homology",
+      "tagline": "Measuring the shape of data across scales.",
+      "category": "Computer Vision",
+      "importance": 1,
+      "featured": true,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "ph.png",
+      "tags": ["Topology", "TDA", "Filtration"],
+      "links": { "code": "", "paper": "", "reference": "https://www.ams.org/journals/bull/2009-46-02/S0273-0979-09-01249-X/", "reference_label": "Carlsson, Topology and Data (2009)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Topological data analysis asks a question orthogonal to most of machine learning: what is the *shape* of a dataset? Persistent homology answers by tracking topological features — connected components, loops, voids — as a scale parameter grows."
+        ]},
+        { "heading": "Method", "body": [
+          "A filtration builds a nested family of simplicial complexes over the data. Homology is computed at every scale, and features are summarized by *persistence* — how long each feature survives — visualized as a barcode or persistence diagram. Long-lived features are signal; short-lived ones are noise."
+        ], "equation": "\\varnothing = K_0 \\subseteq K_1 \\subseteq \\cdots \\subseteq K_n = K,\\qquad H_k(K_i) \\to H_k(K_j)" },
+        { "heading": "Mathematical core", "body": [
+          "The stability of persistence diagrams makes topology a robust feature for learning. This project anchors my broader interest in geometric and topological structure — including using topological invariants to understand latent spaces and continuous-depth models."
+        ]}
+      ]
+    },
+    {
+      "id": "vision-transformer",
+      "title": "Vision Transformer (ViT)",
+      "tagline": "Images as sequences of patches — attention instead of convolution.",
+      "category": "Computer Vision",
+      "importance": 2,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "vit.png",
+      "tags": ["Transformers", "Self-attention", "Patch embedding"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/2010.11929", "reference_label": "Dosovitskiy et al. (2020)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "The Vision Transformer shows that the inductive biases of convolution are not strictly necessary: split an image into patches, embed them as tokens, and let self-attention model global relationships directly."
+        ]},
+        { "heading": "Method", "body": [
+          "Patches are linearly embedded and augmented with positional encodings and a class token, then processed by a standard transformer encoder. Attention lets every patch attend to every other from the first layer, giving a global receptive field."
+        ], "equation": "\\mathrm{Attention}(Q,K,V) = \\mathrm{softmax}\\!\\left(\\frac{QK^\\top}{\\sqrt{d_k}}\\right)V" },
+        { "heading": "Mathematical core", "body": [
+          "Self-attention is a data-dependent, permutation-equivariant mixing operator — a learned, dense analogue of message passing on a complete graph. That connection ties ViTs to my work on graph neural networks."
+        ]}
+      ]
+    },
+    {
+      "id": "t5-summarization",
+      "title": "Summarization with T5",
+      "tagline": "Every NLP task as text-to-text.",
+      "category": "Natural Language Processing",
+      "importance": 1,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "t5.png",
+      "tags": ["Seq2seq", "Transfer learning", "Summarization"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1910.10683", "reference_label": "Raffel et al., T5 (2019)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "T5 unifies NLP under a single text-to-text interface: classification, translation, and summarization all become 'read a string, write a string.' This project fine-tunes the encoder–decoder for abstractive summarization."
+        ]},
+        { "heading": "Method", "body": [
+          "A pre-trained transformer encoder–decoder is fine-tuned on document/summary pairs, decoding summaries autoregressively. The shared format lets a single model transfer knowledge across tasks."
+        ], "equation": "p(y \\mid x) = \\prod_{t} p\\!\\left(y_t \\mid y_{<t},\\, x\\right)" },
+        { "heading": "Mathematical core", "body": [
+          "The text-to-text framing exposes the common seq2seq backbone behind modern language models and clarifies how transfer learning reuses a single distributional model across many objectives."
+        ]}
+      ]
+    },
+    {
+      "id": "graph-attention",
+      "title": "Graph Attention Networks",
+      "tagline": "Learning how much each neighbor matters.",
+      "category": "Graph Neural Networks",
+      "importance": 1,
+      "featured": true,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "gat.png",
+      "tags": ["Attention", "Message passing", "Relational learning"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1710.10903", "reference_label": "Veličković et al. (2017)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Graph Attention Networks replace fixed aggregation weights with learned attention over a node's neighborhood, letting the model decide which relationships carry information — without needing the full graph structure up front."
+        ]},
+        { "heading": "Method", "body": [
+          "For each edge an attention coefficient is computed from the endpoints' features, normalized over the neighborhood, and used to weight the message. Multi-head attention stabilizes learning and captures diverse relational patterns."
+        ], "equation": "\\alpha_{ij} = \\frac{\\exp\\!\\big(\\mathrm{LeakyReLU}(a^\\top[Wh_i \\,\\|\\, Wh_j])\\big)}{\\sum_{k\\in\\mathcal{N}(i)} \\exp\\!\\big(\\mathrm{LeakyReLU}(a^\\top[Wh_i \\,\\|\\, Wh_k])\\big)}" },
+        { "heading": "Mathematical core", "body": [
+          "GAT is self-attention restricted to a graph's edges — the same operator behind transformers, specialized to non-Euclidean, relational domains."
+        ]}
+      ]
+    },
+    {
+      "id": "graph-convolution",
+      "title": "Graph Convolutional Networks",
+      "tagline": "Convolution, generalized from grids to graphs.",
+      "category": "Graph Neural Networks",
+      "importance": 2,
+      "featured": false,
+      "status": "Study & implementation",
+      "year": "2023",
+      "image": "gcn.png",
+      "tags": ["Spectral graph theory", "Message passing", "Semi-supervised"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/1609.02907", "reference_label": "Kipf & Welling (2016)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "Graph Convolutional Networks bring the idea of convolution to irregular domains. Derived from spectral graph theory, they aggregate information from a node's neighbors through a normalized propagation rule — powerful for semi-supervised learning on graphs."
+        ]},
+        { "heading": "Method", "body": [
+          "Each layer mixes node features using the symmetrically normalized adjacency matrix with self-loops, followed by a learnable linear map and nonlinearity. Stacking layers grows the receptive field across the graph."
+        ], "equation": "H^{(l+1)} = \\sigma\\!\\left(\\tilde{D}^{-1/2}\\,\\tilde{A}\\,\\tilde{D}^{-1/2}\\,H^{(l)}\\,W^{(l)}\\right)" },
+        { "heading": "Mathematical core", "body": [
+          "The propagation rule is a first-order approximation of a spectral graph filter — a localized smoothing on the graph Laplacian. This spectral lens is where my interest in geometry and graph learning meets."
+        ]}
+      ]
+    }
+  ]
+}

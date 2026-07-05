@@ -1,0 +1,125 @@
+{
+  "pdf": "assets/cv/Curriculum_Vitae.pdf",
+  "note": "Items marked with a dashed border are editable placeholders — confirm or replace them. Nothing here is invented; uncertain facts are left blank on purpose. See the content checklist in README.md.",
+  "profile": {
+    "name": "Seyed MohammadHossein Hosseini Dastjae",
+    "label": "Researcher — Theoretical Machine Learning & Generative Models",
+    "location": "Isfahan, Iran",
+    "email": "m.ho.hosseini@gmail.com",
+    "summary": "Machine-learning researcher with a B.Sc. in Computer Engineering from the University of Isfahan, working at the intersection of generative modeling, stochastic processes, density estimation, and the mathematical foundations of deep learning."
+  },
+  "sections": [
+    {
+      "title": "Education",
+      "type": "timeline",
+      "items": [
+        {
+          "period": "— 2023",
+          "title": "B.Sc. in Computer Engineering",
+          "org": "University of Isfahan",
+          "location": "Isfahan, Iran",
+          "details": [
+            "Thesis: a verification system built around a generative image-enhancement pipeline.",
+            "Undergraduate focus on statistical inference and generative modeling."
+          ],
+          "todo": false
+        },
+        {
+          "period": "",
+          "title": "Graduate study",
+          "org": "",
+          "location": "",
+          "details": [
+            "Add current or prospective graduate program (institution, degree, dates) here."
+          ],
+          "todo": true
+        }
+      ]
+    },
+    {
+      "title": "Research Experience",
+      "type": "timeline",
+      "items": [
+        {
+          "period": "2024 — present",
+          "title": "Generative models for time-series data",
+          "org": "Independent / collaborative research",
+          "location": "",
+          "details": [
+            "Extending the score-based SDE framework of diffusion models toward time-series data (manuscript in preparation).",
+            "Diffusion-based meta-learning for retail forecasting (submitted to EJOR)."
+          ],
+          "todo": false
+        },
+        {
+          "period": "",
+          "title": "Add advisor / lab / group",
+          "org": "",
+          "location": "",
+          "details": [
+            "If this research was done within a specific lab or under an advisor, add the details here."
+          ],
+          "todo": true
+        }
+      ]
+    },
+    {
+      "title": "Teaching",
+      "type": "timeline",
+      "items": [
+        {
+          "period": "",
+          "title": "Instructor — Deep Learning with PyTorch",
+          "org": "University of Isfahan",
+          "location": "Online course",
+          "details": [
+            "Designed and taught an end-to-end deep-learning course in PyTorch."
+          ],
+          "todo": false
+        },
+        {
+          "period": "",
+          "title": "Teaching Assistant — Advanced Programming Concepts (Java)",
+          "org": "University of Isfahan",
+          "location": "",
+          "details": [
+            "Supported an undergraduate course on object-oriented programming and software engineering in Java."
+          ],
+          "todo": false
+        }
+      ]
+    },
+    {
+      "title": "Technical Skills",
+      "type": "skills",
+      "groups": [
+        { "label": "Programming", "items": ["Python", "PyTorch", "NumPy / SciPy", "Java"] },
+        { "label": "Machine Learning", "items": ["Generative models", "Diffusion & flows", "Variational inference", "Graph neural networks"] },
+        { "label": "Mathematics", "items": ["Probability & statistics", "Stochastic calculus", "Differential equations", "Topology"] }
+      ]
+    },
+    {
+      "title": "Languages",
+      "type": "list",
+      "items": [
+        "Persian — native (confirm)",
+        "English — professional working proficiency (confirm)"
+      ],
+      "todo": true
+    },
+    {
+      "title": "Awards & Honors",
+      "type": "timeline",
+      "items": [
+        {
+          "period": "",
+          "title": "Add awards, scholarships, or honors",
+          "org": "",
+          "location": "",
+          "details": ["List any competition results, scholarships, or academic honors here."],
+          "todo": true
+        }
+      ]
+    }
+  ]
+}

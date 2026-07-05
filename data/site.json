@@ -1,0 +1,54 @@
+{
+  "name": "S. Mohammad H. Hosseini D.",
+  "full_name": "Seyed MohammadHossein Hosseini Dastjae",
+  "short_name": "Mamad",
+  "identity_line": "Machine Learning, Generative Models, Stochastic Processes, and Mathematical Structure.",
+  "role": "Researcher in Theoretical Machine Learning",
+  "affiliation": "University of Isfahan",
+  "affiliation_url": "https://comp.ui.ac.ir/en",
+  "location": "Isfahan, Iran",
+  "email": "m.ho.hosseini@gmail.com",
+  "url": "https://mhohosseini.github.io/",
+  "description": "Personal research site of S. Mohammad H. Hosseini D. — theoretical machine learning, generative models, stochastic processes, density estimation, topology, and the mathematical foundations of deep learning.",
+  "keywords": [
+    "Theoretical Machine Learning",
+    "Generative Models",
+    "Stochastic Processes",
+    "Diffusion Models",
+    "Normalizing Flows",
+    "Density Estimation",
+    "Variational Inference",
+    "Topological Machine Learning",
+    "Graph Neural Networks",
+    "Neural ODEs",
+    "Stochastic Differential Equations"
+  ],
+  "interests_ticker": [
+    "diffusion & flow models",
+    "score-based SDEs",
+    "density estimation",
+    "variational inference",
+    "Neural ODEs",
+    "persistent homology",
+    "graph neural networks",
+    "stochastic calculus"
+  ],
+  "socials": {
+    "email": "m.ho.hosseini@gmail.com",
+    "github": "https://github.com/MHoHosseini",
+    "twitter": "https://x.com/Xaocyc",
+    "scholar": "",
+    "linkedin": "",
+    "orcid": ""
+  },
+  "social_notes": {
+    "twitter": "Handle 'Xaocyc' was carried over from the previous config — confirm or remove.",
+    "github": "Set to the owner's GitHub (MHoHosseini) — confirm it is the intended public profile.",
+    "scholar": "Add a Google Scholar profile URL when available.",
+    "linkedin": "Add a LinkedIn URL when available.",
+    "orcid": "Add an ORCID iD when available."
+  },
+  "cv_pdf": "assets/cv/Curriculum_Vitae.pdf",
+  "analytics_id": "G-V7ZHMZWNN8",
+  "analytics_enabled": false
+}

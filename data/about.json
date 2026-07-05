@@ -1,0 +1,16 @@
+{
+  "greeting": "I'm Mamad.",
+  "lede": "I'm a machine-learning researcher who reads deep learning as applied mathematics — and mathematics as a source of new learning algorithms.",
+  "paragraphs": [
+    "My full name is Seyed MohammadHossein Hosseini Dastjae — not unlike Albus Percival Wulfric Brian Dumbledore — but I mostly go by <strong>Mamad</strong>. I hold a B.Sc. in Computer Engineering from the University of Isfahan, where my undergraduate work centered on statistical inference and generative modeling, alongside projects across computer vision, graph neural networks, and natural language processing.",
+    "What draws me is the way pure mathematics keeps generating ideas for machine learning. The stochastic-calculus reading of diffusion and flow models; homeomorphism interpolation carried out by Neural ODEs; the deep kinship between normalizing flows and the theory of differential equations — these are a few of the threads I keep pulling. I want to push further into more abstract structure: to find <strong>stochastic processes better suited to generative modeling</strong>, analytically and topologically.",
+    "Right now that means diffusion and score-based SDEs for structured and time-series data, density estimation and variational inference, and the geometry and topology of latent spaces. If any of this overlaps with what you're thinking about, I'd be glad to hear from you."
+  ],
+  "status_line": "Currently: researching generative models & stochastic processes. Open to graduate & research opportunities.",
+  "status_todo": "Update this status line with your current position (e.g., graduate program, lab, or role) when confirmed.",
+  "quick_facts": [
+    { "label": "Focus", "value": "Generative models · Stochastic processes · Topology" },
+    { "label": "Background", "value": "B.Sc. Computer Engineering, University of Isfahan" },
+    { "label": "Based in", "value": "Isfahan, Iran" }
+  ]
+}

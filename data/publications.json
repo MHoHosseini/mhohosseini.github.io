@@ -1,0 +1,35 @@
+{
+  "note": "Publications are listed newest-first. 'me' marks the site owner for author highlighting. Add PDF / code / arXiv links as they become available.",
+  "publications": [
+    {
+      "id": "hosseini2025-sde-timeseries",
+      "title": "Boosting the SDE Framework of Generative Models towards Time-Series Data",
+      "authors": [
+        { "name": "S. M. Hosseini D.", "me": true },
+        { "name": "S. Barak" }
+      ],
+      "year": 2025,
+      "venue": "In preparation",
+      "status": "In preparation",
+      "selected": true,
+      "tags": ["Diffusion", "SDE", "Time series", "Generative models"],
+      "abstract": "Extending the stochastic-differential-equation view of diffusion generative models to the structure and dependencies of time-series data.",
+      "links": { "pdf": "", "arxiv": "", "code": "", "blog": "" }
+    },
+    {
+      "id": "barak2024-meta-diffusion",
+      "title": "Enhancing Meta-Learning Retail Forecasting with Diffusion",
+      "authors": [
+        { "name": "S. Barak" },
+        { "name": "S. M. Hosseini D.", "me": true }
+      ],
+      "year": 2024,
+      "venue": "Submitted to the European Journal of Operational Research (EJOR)",
+      "status": "Under review",
+      "selected": true,
+      "tags": ["Diffusion", "Meta-learning", "Forecasting"],
+      "abstract": "Applying diffusion-based generative modeling to strengthen meta-learning approaches for retail demand forecasting.",
+      "links": { "pdf": "", "arxiv": "", "code": "", "blog": "" }
+    }
+  ]
+}

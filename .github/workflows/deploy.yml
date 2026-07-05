@@ -1,40 +1,72 @@
-name: deploy
+name: Build & Deploy
+
+# Builds the static site with build.py and publishes dist/ to the gh-pages
+# branch, which GitHub Pages serves. No repo settings change is required if
+# Pages is already set to "Deploy from a branch → gh-pages".
+#
+# Prefer GitHub's native Pages deployment instead? See the commented job at the
+# bottom of this file and set Pages → Source → "GitHub Actions" in repo settings.
 
 on:
   push:
-    branches:
-      - master
-      - main
-  pull_request:
-    branches:
-      - master
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  deploy:
-    # available images: https://github.com/actions/runner-images#available-images
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout 🛎️
-      uses: actions/checkout@v3
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.2.2'
-        bundler-cache: true
-    - name: Install and Build 🔧
-      run: |
-        pip3 install --upgrade jupyter
-        npm install -g mermaid.cli
-        export JEKYLL_ENV=production
-        bundle exec jekyll build
-    - name: Deploy 🚀
-      if: github.event_name != 'pull_request'
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: _site
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build static site
+        run: python build.py
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          clean: true
+
+# ---------------------------------------------------------------------------
+# Alternative: GitHub-native Pages deployment.
+# To use it, delete the job above, uncomment below, and set
+# Settings → Pages → Source → "GitHub Actions".
+#
+# permissions:
+#   contents: read
+#   pages: write
+#   id-token: write
+#
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-python@v5
+#         with: { python-version: "3.12" }
+#       - run: python build.py
+#       - uses: actions/upload-pages-artifact@v3
+#         with: { path: dist }
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     environment:
+#       name: github-pages
+#       url: ${{ steps.deployment.outputs.page_url }}
+#     steps:
+#       - id: deployment
+#         uses: actions/deploy-pages@v4

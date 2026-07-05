@@ -1,0 +1,59 @@
+{
+  "intro": "I study machine learning from the vantage point of pure mathematics — asking which analytic, geometric, and topological structures make learning possible, and how those structures translate into models that generate, infer, and reason. Six threads organize the work.",
+  "areas": [
+    {
+      "id": "generative-models",
+      "title": "Generative Models",
+      "motif": "diffusion",
+      "accent": "cyan",
+      "summary": "Learning to sample from complex, high-dimensional distributions — from denoising diffusion and implicit samplers to autoregressive and latent-variable models.",
+      "detail": "How do we turn noise into structure? I work across the modern generative landscape: score-based diffusion, deterministic samplers, normalizing flows, adversarial and energy-based models, and variational autoencoders — with a bias toward the underlying probabilistic and dynamical principles rather than architecture alone.",
+      "projects": ["probabilistic-diffusion", "implicit-diffusion", "normalizing-flows", "variational-autoencoder"]
+    },
+    {
+      "id": "stochastic-processes",
+      "title": "Stochastic Processes & SDEs",
+      "motif": "flow",
+      "accent": "violet",
+      "summary": "Reading generative modeling through stochastic calculus: diffusion as a stochastic differential equation, and the search for processes better suited to data.",
+      "detail": "The score-based view recasts generation as integrating a reverse-time SDE. I am interested in which stochastic processes — beyond the standard Brownian scaffold — are analytically and topologically better matched to real data, particularly structured and time-series data.",
+      "projects": ["probabilistic-diffusion", "implicit-diffusion", "normalizing-flows"]
+    },
+    {
+      "id": "density-estimation",
+      "title": "Density Estimation & Inference",
+      "motif": "manifold",
+      "accent": "cyan",
+      "summary": "Estimating and approximating distributions — variational inference, expectation–maximization, and exact-likelihood models.",
+      "detail": "From mean-field and automatic-differentiation variational inference to the EM algorithm and change-of-variables likelihoods, I study how we quantify uncertainty and fit densities to data, and where these approximations succeed or break down.",
+      "projects": ["expectation-maximization", "mean-field-vi", "advi", "normalizing-flows"]
+    },
+    {
+      "id": "topological-ml",
+      "title": "Topological & Geometric ML",
+      "motif": "topology",
+      "accent": "gold",
+      "summary": "Bringing topology and geometry to bear on learning: persistent homology, manifold structure, and homeomorphism interpolation via Neural ODEs.",
+      "detail": "Data has shape. I use tools from algebraic topology — persistent homology and beyond — to characterize that shape, and study continuous-depth models (Neural ODEs) as homeomorphisms that deform latent space while preserving topological invariants.",
+      "projects": ["persistent-homology", "normalizing-flows"]
+    },
+    {
+      "id": "graph-neural-networks",
+      "title": "Graph Neural Networks",
+      "motif": "graph",
+      "accent": "violet",
+      "summary": "Learning on relational structure — spectral convolution and attention over graphs.",
+      "detail": "Much of the world is relational. I study message passing, graph convolution, and graph attention as principled ways to learn representations on non-Euclidean domains, and how spectral and geometric perspectives illuminate their behavior.",
+      "projects": ["graph-convolution", "graph-attention"]
+    },
+    {
+      "id": "foundations",
+      "title": "Mathematical Foundations of Deep Learning",
+      "motif": "constellation",
+      "accent": "gold",
+      "summary": "The through-line: differential equations, stochastic calculus, and topology as the grammar behind deep models.",
+      "detail": "Across all of the above sits one conviction — that abstract mathematics is a generative source of ideas for learning, not just an after-the-fact justification. Flows and differential equations, diffusion and stochastic calculus, latent spaces and topology: I want to keep pulling these threads.",
+      "projects": ["probabilistic-diffusion", "normalizing-flows", "persistent-homology"]
+    }
+  ]
+}

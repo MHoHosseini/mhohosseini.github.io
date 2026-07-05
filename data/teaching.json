@@ -1,0 +1,39 @@
+{
+  "teaching": [
+    {
+      "id": "deep-learning-pytorch",
+      "title": "Deep Learning with PyTorch",
+      "role": "Instructor",
+      "institution": "University of Isfahan",
+      "format": "Online course",
+      "image": "dl.png",
+      "importance": 1,
+      "summary": "Designed and taught an online course introducing deep learning end-to-end in PyTorch — from automatic differentiation and optimization to convolutional, sequence, and generative models.",
+      "topics": [
+        "Tensors, autograd & the PyTorch computational graph",
+        "Optimization, regularization & training dynamics",
+        "Convolutional networks for vision",
+        "Sequence models & attention",
+        "Introduction to generative models"
+      ],
+      "materials": []
+    },
+    {
+      "id": "advanced-programming-java",
+      "title": "Advanced Programming Concepts (Java)",
+      "role": "Teaching Assistant",
+      "institution": "University of Isfahan",
+      "format": "Undergraduate course",
+      "image": "apj.png",
+      "importance": 2,
+      "summary": "Teaching assistant for an undergraduate course on advanced programming in Java — object-oriented design, data structures, and software-engineering practice.",
+      "topics": [
+        "Object-oriented design & design patterns",
+        "Generics, collections & data structures",
+        "Concurrency & exception handling",
+        "Practical software engineering in Java"
+      ],
+      "materials": []
+    }
+  ]
+}
