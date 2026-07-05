@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Expectation–Maximization — S. Mohammad H. Hosseini D.</title>
-<meta name="description" content="Fitting latent-variable models by iterated lower-bound maximization.">
+<title>Optimal-Transport Flow Matching for Traffic Forecasting — S. Mohammad H. Hosseini D.</title>
+<meta name="description" content="A generative OT flow, stacked on a seasonal anchor, for long-horizon city traffic.">
 <meta name="keywords" content="Pure Mathematics, Generative Models, Optimal Transport, Differential Geometry, Functional Analysis, Stochastic Processes, Stochastic Differential Equations, Diffusion Models, Flow Matching, Normalizing Flows, Deep Learning">
 <meta name="author" content="Seyed MohammadHossein Hosseini Dastjae">
-<link rel="canonical" href="https://mhohosseini.github.io/projects/expectation-maximization/">
+<link rel="canonical" href="https://mhohosseini.github.io/projects/padova-traffic-ot-flow/">
 <meta name="theme-color" content="#05070f">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Expectation–Maximization — S. Mohammad H. Hosseini D.">
-<meta property="og:description" content="Fitting latent-variable models by iterated lower-bound maximization.">
-<meta property="og:url" content="https://mhohosseini.github.io/projects/expectation-maximization/">
+<meta property="og:title" content="Optimal-Transport Flow Matching for Traffic Forecasting — S. Mohammad H. Hosseini D.">
+<meta property="og:description" content="A generative OT flow, stacked on a seasonal anchor, for long-horizon city traffic.">
+<meta property="og:url" content="https://mhohosseini.github.io/projects/padova-traffic-ot-flow/">
 <meta property="og:image" content="https://mhohosseini.github.io/assets/img/prof_pic.jpg">
 <meta property="og:site_name" content="S. Mohammad H. Hosseini D.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Expectation–Maximization — S. Mohammad H. Hosseini D.">
-<meta name="twitter:description" content="Fitting latent-variable models by iterated lower-bound maximization.">
+<meta name="twitter:title" content="Optimal-Transport Flow Matching for Traffic Forecasting — S. Mohammad H. Hosseini D.">
+<meta name="twitter:description" content="A generative OT flow, stacked on a seasonal anchor, for long-horizon city traffic.">
 <meta name="twitter:image" content="https://mhohosseini.github.io/assets/img/prof_pic.jpg">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/prof_pic.jpg">
@@ -46,23 +46,23 @@
 <main id="top">
 <section class="wrap detail-hero">
   <a class="back-link" href="/projects/"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> All projects</a>
-  <span class="eyebrow">Inference &amp; Density Estimation</span>
-  <h1>Expectation–Maximization</h1>
-  <p class="detail-tagline">Fitting latent-variable models by iterated lower-bound maximization.</p>
+  <span class="eyebrow">Generative Models</span>
+  <h1>Optimal-Transport Flow Matching for Traffic Forecasting</h1>
+  <p class="detail-tagline">A generative OT flow, stacked on a seasonal anchor, for long-horizon city traffic.</p>
   <div class="detail-meta">
-    <span class="meta-pill status">Study &amp; implementation</span>
-    <span class="meta-pill">2022</span>
-    <span class="meta-pill">EM</span><span class="meta-pill">Latent variables</span><span class="meta-pill">Mixture models</span>
+    <span class="meta-pill status">University of Padova · Deep Learning challenge</span>
+    <span class="meta-pill">2026</span>
+    <span class="meta-pill">Optimal Transport</span><span class="meta-pill">Flow Matching</span><span class="meta-pill">Time series</span>
   </div>
 </section>
 <section class="wrap" style="padding-top:0">
   <figure class="detail-figure reveal">
-    <img src="/assets/img/em.gif" alt="Expectation–Maximization diagram" loading="lazy" decoding="async">
+    <img src="/assets/img/otflow.svg" alt="Optimal-Transport Flow Matching for Traffic Forecasting diagram" loading="lazy" decoding="async">
   </figure>
   <div class="detail-body">
-    <div class="detail-section"><h2>Motivation</h2><p>Expectation–Maximization is the workhorse for maximum-likelihood estimation when data are incomplete or governed by latent variables — Gaussian mixtures being the classic case. It alternates between inferring the latent responsibilities and re-fitting the parameters.</p></div><div class="detail-section"><h2>Method</h2><p>The E-step computes the posterior over latent variables under current parameters; the M-step maximizes the expected complete-data log-likelihood. Each iteration is guaranteed not to decrease the observed-data likelihood.</p><div class="equation">\[ Q(\theta \mid \theta^{(t)}) = \mathbb{E}_{z\sim p(z\mid x,\theta^{(t)})}\big[\log p(x,z\mid\theta)\big] \]</div></div><div class="detail-section"><h2>Mathematical core</h2><p>EM is variational inference in disguise: the E-step tightens a lower bound by setting the variational distribution to the exact posterior, and the M-step raises the bound. This makes it the natural stepping stone to mean-field VI and ADVI.</p></div>
-    <div class="detail-links"><a class="btn" href="https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm" target="_blank" rel="noopener"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> Dempster, Laird &amp; Rubin (1977)</a></div>
-    <div class="detail-nav"><a href="/projects/variational-autoencoder/"><span class="lbl">← Previous</span>Variational Autoencoder</a><a href="/projects/mean-field-vi/" style="text-align:right"><span class="lbl">Next →</span>Mean-Field Variational Inference</a></div>
+    <div class="detail-section"><h2>Motivation</h2><p>My most recent project — a University of Padova deep-learning challenge — forecasts traffic across 66 sensors in Padova over long horizons (hundreds of 10-minute steps). The scoring metric is mean absolute error, which is minimized by the <em>conditional median</em>, not the mean. That reframing turns forecasting into a question about distributions, and makes a generative model the natural instrument.</p></div><div class="detail-section"><h2>Method</h2><p>The model is a hybrid. A seasonal <strong>anchor</strong> captures day-of-week/hour/minute structure as a strong climatological baseline. A shared <strong>Transformer trunk</strong> attends across sensors — fed sensor geometry, time features, and learned embeddings. On top sit two heads: a <strong>deterministic</strong> residual head (median-aligned, L1) and a generative <strong>optimal-transport conditional flow-matching</strong> head. Predictions are combined by honest-holdout arbitration and stagewise stacking across five random seeds.</p></div><div class="detail-section"><h2>Mathematical core</h2><p>Flow matching learns a velocity field $v_\theta$ that transports noise to data along a probability path. Using an <em>optimal-transport</em> coupling of $x_0\sim\mathcal{N}(0,I)$ and data $x_1$ (here an exact 1-D minibatch OT / rank pairing), the interpolant becomes a straight line, its target velocity is constant, and just a few Euler steps integrate it accurately.</p><div class="equation">\[ \mathcal{L}_{\text{OT-CFM}} = \mathbb{E}_{t,\,(x_0,x_1)\sim\pi_{\text{OT}}}\Big[\big\lVert v_\theta(x_t, t\mid c) - (x_1 - x_0)\big\rVert^2\Big],\quad x_t = (1-t)x_0 + t x_1 \]</div></div><div class="detail-section"><h2>Inference &amp; results</h2><p>At inference the generative head samples $K$ noise seeds, integrates the ODE $\dot{x} = v_\theta(x,t\mid c)$, and takes the <strong>per-cell median</strong> — the statistically correct point estimate under MAE. Ensembling and honest validation guard every added parameter against overfitting. The project ties together the threads I care about most: optimal transport, generative flows, and the analysis of stochastic dynamics, applied to real structured data.</p></div>
+    <div class="detail-links"><a class="btn" href="https://arxiv.org/abs/2302.00482" target="_blank" rel="noopener"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> Tong et al., OT-CFM (2023)</a></div>
+    <div class="detail-nav"><span></span><a href="/projects/probabilistic-diffusion/" style="text-align:right"><span class="lbl">Next →</span>Probabilistic Diffusion</a></div>
   </div>
 </section></main>
 <footer class="site">

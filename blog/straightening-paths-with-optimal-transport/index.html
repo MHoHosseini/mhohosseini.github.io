@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Expectation–Maximization — S. Mohammad H. Hosseini D.</title>
-<meta name="description" content="Fitting latent-variable models by iterated lower-bound maximization.">
+<title>Straightening generative paths with optimal transport — S. Mohammad H. Hosseini D.</title>
+<meta name="description" content="How an optimal-transport coupling turns curved flow-matching trajectories into straight lines you can integrate in a handful of steps.">
 <meta name="keywords" content="Pure Mathematics, Generative Models, Optimal Transport, Differential Geometry, Functional Analysis, Stochastic Processes, Stochastic Differential Equations, Diffusion Models, Flow Matching, Normalizing Flows, Deep Learning">
 <meta name="author" content="Seyed MohammadHossein Hosseini Dastjae">
-<link rel="canonical" href="https://mhohosseini.github.io/projects/expectation-maximization/">
+<link rel="canonical" href="https://mhohosseini.github.io/blog/straightening-paths-with-optimal-transport/">
 <meta name="theme-color" content="#05070f">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Expectation–Maximization — S. Mohammad H. Hosseini D.">
-<meta property="og:description" content="Fitting latent-variable models by iterated lower-bound maximization.">
-<meta property="og:url" content="https://mhohosseini.github.io/projects/expectation-maximization/">
+<meta property="og:title" content="Straightening generative paths with optimal transport — S. Mohammad H. Hosseini D.">
+<meta property="og:description" content="How an optimal-transport coupling turns curved flow-matching trajectories into straight lines you can integrate in a handful of steps.">
+<meta property="og:url" content="https://mhohosseini.github.io/blog/straightening-paths-with-optimal-transport/">
 <meta property="og:image" content="https://mhohosseini.github.io/assets/img/prof_pic.jpg">
 <meta property="og:site_name" content="S. Mohammad H. Hosseini D.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Expectation–Maximization — S. Mohammad H. Hosseini D.">
-<meta name="twitter:description" content="Fitting latent-variable models by iterated lower-bound maximization.">
+<meta name="twitter:title" content="Straightening generative paths with optimal transport — S. Mohammad H. Hosseini D.">
+<meta name="twitter:description" content="How an optimal-transport coupling turns curved flow-matching trajectories into straight lines you can integrate in a handful of steps.">
 <meta name="twitter:image" content="https://mhohosseini.github.io/assets/img/prof_pic.jpg">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/img/prof_pic.jpg">
@@ -35,7 +35,7 @@
   <div class="nav-inner">
     <a class="brand" href="/" aria-label="S. Mohammad H. Hosseini D. — home"><svg class="glyph" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M 17.05 16.00 L 17.08 16.17 L 17.09 16.35 L 17.07 16.53 L 17.02 16.72 L 16.94 16.91 L 16.82 17.09 L 16.67 17.26 L 16.49 17.41 L 16.28 17.53 L 16.05 17.63 L 15.79 17.69 L 15.51 17.71 L 15.22 17.69 L 14.92 17.62 L 14.63 17.50 L 14.34 17.32 L 14.08 17.10 L 13.84 16.83 L 13.63 16.51 L 13.48 16.14 L 13.37 15.74 L 13.33 15.31 L 13.35 14.86 L 13.44 14.40 L 13.62 13.94 L 13.87 13.49 L 14.21 13.06 L 14.62 12.68 L 15.11 12.35 L 15.66 12.09 L 16.28 11.91 L 16.95 11.82 L 17.65 11.84 L 18.37 11.97 L 19.10 12.21 L 19.80 12.59 L 20.48 13.09 L 21.09 13.71 L 21.62 14.45 L 22.05 15.31 L 22.36 16.25 L 22.53 17.28 L 22.53 18.37 L 22.36 19.50" stroke="url(#cyc)" stroke-width="1.5" stroke-linecap="round"/><path d="M 14.95 16.00 L 14.92 15.83 L 14.91 15.65 L 14.93 15.47 L 14.98 15.28 L 15.06 15.09 L 15.18 14.91 L 15.33 14.74 L 15.51 14.59 L 15.72 14.47 L 15.95 14.37 L 16.21 14.31 L 16.49 14.29 L 16.78 14.31 L 17.08 14.38 L 17.37 14.50 L 17.66 14.68 L 17.92 14.90 L 18.16 15.17 L 18.37 15.49 L 18.52 15.86 L 18.63 16.26 L 18.67 16.69 L 18.65 17.14 L 18.56 17.60 L 18.38 18.06 L 18.13 18.51 L 17.79 18.94 L 17.38 19.32 L 16.89 19.65 L 16.34 19.91 L 15.72 20.09 L 15.05 20.18 L 14.35 20.16 L 13.63 20.03 L 12.90 19.79 L 12.20 19.41 L 11.52 18.91 L 10.91 18.29 L 10.38 17.55 L 9.95 16.69 L 9.64 15.75 L 9.47 14.72 L 9.47 13.63 L 9.64 12.50" stroke="url(#cyc)" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="16" r="1.7" fill="#38e1d6"/><defs><linearGradient id="cyc" x1="9" y1="12" x2="23" y2="20"><stop stop-color="#38e1d6"/><stop offset="1" stop-color="#a689fb"/></linearGradient></defs></svg><span>S. Mohammad H. Hosseini D.</span></a>
     <ul class="nav-links">
-      <li><a href="/">Home</a></li><li><a href="/research/">Research</a></li><li><a href="/projects/" class="active">Projects</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li><li><a href="/blog/">Blog</a></li><li><a href="/cv/">CV</a></li>
+      <li><a href="/">Home</a></li><li><a href="/research/">Research</a></li><li><a href="/projects/">Projects</a></li><li><a href="/publications/">Publications</a></li><li><a href="/teaching/">Teaching</a></li><li><a href="/blog/" class="active">Blog</a></li><li><a href="/cv/">CV</a></li>
       <li><a class="nav-cta" href="/#contact">Contact</a></li>
     </ul>
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
@@ -44,26 +44,31 @@
   </div>
 </nav>
 <main id="top">
-<section class="wrap detail-hero">
-  <a class="back-link" href="/projects/"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> All projects</a>
-  <span class="eyebrow">Inference &amp; Density Estimation</span>
-  <h1>Expectation–Maximization</h1>
-  <p class="detail-tagline">Fitting latent-variable models by iterated lower-bound maximization.</p>
-  <div class="detail-meta">
-    <span class="meta-pill status">Study &amp; implementation</span>
-    <span class="meta-pill">2022</span>
-    <span class="meta-pill">EM</span><span class="meta-pill">Latent variables</span><span class="meta-pill">Mixture models</span>
-  </div>
+<section class="wrap post-hero">
+  <a class="back-link" href="/blog/"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> All posts</a>
+  <span class="eyebrow">Blog</span>
+  <h1>Straightening generative paths with optimal transport</h1>
+  <div class="post-meta-row"><span>Jun 20, 2026</span><span class="dot">·</span><span class="meta-pill">optimal transport</span><span class="meta-pill">flow matching</span><span class="meta-pill">generative models</span></div>
 </section>
-<section class="wrap" style="padding-top:0">
-  <figure class="detail-figure reveal">
-    <img src="/assets/img/em.gif" alt="Expectation–Maximization diagram" loading="lazy" decoding="async">
-  </figure>
-  <div class="detail-body">
-    <div class="detail-section"><h2>Motivation</h2><p>Expectation–Maximization is the workhorse for maximum-likelihood estimation when data are incomplete or governed by latent variables — Gaussian mixtures being the classic case. It alternates between inferring the latent responsibilities and re-fitting the parameters.</p></div><div class="detail-section"><h2>Method</h2><p>The E-step computes the posterior over latent variables under current parameters; the M-step maximizes the expected complete-data log-likelihood. Each iteration is guaranteed not to decrease the observed-data likelihood.</p><div class="equation">\[ Q(\theta \mid \theta^{(t)}) = \mathbb{E}_{z\sim p(z\mid x,\theta^{(t)})}\big[\log p(x,z\mid\theta)\big] \]</div></div><div class="detail-section"><h2>Mathematical core</h2><p>EM is variational inference in disguise: the E-step tightens a lower bound by setting the variational distribution to the exact posterior, and the M-step raises the bound. This makes it the natural stepping stone to mean-field VI and ADVI.</p></div>
-    <div class="detail-links"><a class="btn" href="https://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm" target="_blank" rel="noopener"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg> Dempster, Laird &amp; Rubin (1977)</a></div>
-    <div class="detail-nav"><a href="/projects/variational-autoencoder/"><span class="lbl">← Previous</span>Variational Autoencoder</a><a href="/projects/mean-field-vi/" style="text-align:right"><span class="lbl">Next →</span>Mean-Field Variational Inference</a></div>
-  </div>
+<section class="wrap" style="padding-top:1rem">
+  <article class="prose"><p>Flow matching trains a <strong>velocity field</strong> $v_\theta(x, t)$ to transport a simple base distribution to data along a path. The trouble, in its naive form, is that the paths can be <em>curved</em> — and curved paths are expensive to integrate and high-variance to learn from. Optimal transport fixes this beautifully.</p>
+<h3>The setup</h3>
+<p>Pick a base sample $x_0 \sim \mathcal{N}(0, I)$ and a data sample $x_1$, and interpolate linearly:</p>
+<div class="equation">$$ x_t = (1 - t)\,x_0 + t\,x_1, \qquad t \in [0, 1]. $$</div>
+<p>The velocity along this straight interpolant is constant, $x_1 - x_0$, so the flow-matching objective is just a regression:</p>
+<div class="equation">$$ \mathcal{L} = \mathbb{E}_{t,\,x_0,\,x_1}\Big[\, \big\lVert v_\theta(x_t, t) - (x_1 - x_0) \big\rVert^2 \,\Big]. $$</div>
+<h3>Where the coupling matters</h3>
+<p>Here's the subtlety: how do we <em>pair</em> $x_0$ with $x_1$? If we pair them independently, different $(x_0, x_1)$ interpolants <strong>cross</strong>, and the marginal velocity the network must learn becomes curved and high-variance.</p>
+<p>Instead, draw the pair from an <strong>optimal-transport coupling</strong> $\pi_{\text{OT}}$. Within a minibatch this is cheap — and in one dimension it's exact: just sort and <strong>rank-pair</strong>. OT coupling minimizes the expected squared displacement, so on average the straight interpolants <em>don't cross</em>:</p>
+<div class="equation">$$ \pi_{\text{OT}} = \arg\min_{\pi}\ \mathbb{E}_{(x_0, x_1)\sim\pi}\ \lVert x_1 - x_0 \rVert^2. $$</div>
+<p>The payoff is concrete. Straighter paths mean:</p>
+<ul><li><strong>fewer integration steps</strong> at inference — four Euler steps can be enough;</li><li><strong>lower-variance targets</strong> during training;</li><li>and a cleaner link to the theory of <strong>Wasserstein geodesics</strong>.</li></ul>
+<h3>Inference under the right loss</h3>
+<p>One last trick I like. If your metric is mean absolute error, the optimal point estimate is the <strong>conditional median</strong>, not the mean. So at inference I sample $K$ noise seeds, integrate the ODE $\dot{x} = v_\theta(x, t)$ for each, and take the per-coordinate median:</p>
+<div class="equation">$$ \hat{x}_1 = \operatorname{median}_{k=1,\dots,K}\ \Phi_\theta(x_0^{(k)}), $$</div>
+<p>where $\Phi_\theta$ is the learned flow map. It's a small thing, but it's the statistically correct way to turn a generative model into a point predictor — and it's exactly what made the difference in my <a href="/projects/padova-traffic-ot-flow/">Padova traffic project</a>.</p>
+<p>That's the whole idea: let optimal transport choose the geometry, and let the loss choose the estimator.</p></article>
+  <div style="max-width:var(--maxw-narrow)"><div class="detail-nav"><a href="/blog/turning-toward-pure-mathematics/"><span class="lbl">← Newer</span>Turning toward pure mathematics</a></div></div>
 </section></main>
 <footer class="site">
   <div class="wrap foot-inner">
