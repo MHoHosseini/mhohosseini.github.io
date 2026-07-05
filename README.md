@@ -84,11 +84,12 @@ project), `/publications/`, `/teaching/`, `/blog/`, `/blog/<slug>/` (one per
 post), `/cv/`, plus `404.html`, `sitemap.xml`, `robots.txt`, `favicon.svg`, and
 `.nojekyll`.
 
-The **homepage landing** is an interactive ODE/SDE phase-flow panel
-(`src/js/dynamics.js`): pick a dynamical system and watch an ensemble of
-particles propagate under it, using the same particle palette as the background.
-The site mark is a minimal two-arm **cyclone** (spiral) defined in `build.py`
-(`GLYPH` for the nav, `FAVICON` for the tab icon).
+The homepage opens with a **full-screen ODE/SDE "trailer"** (`src/js/dynamics.js`)
+above everything else: pick one of ten dynamical systems and watch an ensemble
+propagate over its live vector-field geometry (streaks, fixed points, reference
+grid), then scroll down to the name + portrait and the rest of the site. The site
+mark is a minimal two-arm **cyclone** (spiral) defined in `build.py` (`GLYPH` for
+the nav, `FAVICON` for the tab icon).
 
 ---
 

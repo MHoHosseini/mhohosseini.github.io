@@ -496,7 +496,7 @@ def page_home():
     hero = f"""<section class="hero wrap" id="home">
   <div class="hero-grid">
     <div class="hero-copy">
-      <span class="hero-status"><span class="dot"></span> M.Sc. @ Padova · applying for pure-math PhDs</span>
+      <span class="hero-status"><span class="dot"></span> M.Sc. Computer Science · University of Padova</span>
       <h1>S.&nbsp;Mohammad&nbsp;H.<br><span class="accent">Hosseini D.</span></h1>
       <p class="hero-identity"><span class="hl">Pure Mathematics</span> · Generative Models · Stochastic Processes · <span class="hl">Geometry &amp; Analysis</span></p>
       <p class="hero-lede">{esc(ABOUT['lede'])}</p>
@@ -508,38 +508,7 @@ def page_home():
       <div class="hero-ticker">{ticker}</div>
     </div>
     <div class="hero-media">
-      <div class="dyn-wrap">
-        <div class="dyn-panel">
-          <span class="dyn-corner">phase&nbsp;flow</span>
-          <canvas id="dynamics" aria-label="Interactive ODE and SDE phase flow — choose a system below"></canvas>
-          <div class="dyn-caption" aria-live="polite">
-            <span class="dyn-name"></span>
-            <span class="dyn-eq mono"></span>
-            <span class="dyn-note"></span>
-          </div>
-        </div>
-        <div class="dyn-controls" role="group" aria-label="Choose a dynamical system to propagate"></div>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-cue" aria-hidden="true"><span>scroll</span><span class="bar"></span></div>
-</section>"""
-
-    # about
-    facts = "".join(
-        f'<div class="fact"><div class="k">{esc(f["label"])}</div><div class="v">{esc(f["value"])}</div></div>'
-        for f in ABOUT["quick_facts"])
-    about_paras = "".join(f"<p>{p}</p>" for p in ABOUT["paragraphs"])  # trusted HTML
-    about = f"""<section class="wrap" id="about">
-  <div class="about-grid">
-    <div class="reveal">
-      <span class="eyebrow">About</span>
-      <p class="about-lede">{esc(ABOUT['lede'])}</p>
-      <div class="about-body">{about_paras}</div>
-      <p class="status-strip">{esc(ABOUT['status_line'])}</p>
-    </div>
-    <div class="reveal d1">
-      <div class="portrait-wrap" style="max-width:300px;margin:0 auto 1.6rem">
+      <div class="portrait-wrap">
         <div class="portrait-orbit" aria-hidden="true">
           <svg viewBox="0 0 400 400">
             <g class="portrait-spin">
@@ -555,11 +524,53 @@ def page_home():
           </svg>
         </div>
         <div class="portrait">
-          <img src="/assets/img/prof_pic.jpg" alt="Portrait of {esc_attr(SITE['name'])}" width="300" height="300" loading="lazy">
+          <img src="/assets/img/prof_pic.jpg" alt="Portrait of {esc_attr(SITE['name'])}" width="380" height="380">
         </div>
       </div>
-      <div class="facts">{facts}</div>
     </div>
+  </div>
+</section>"""
+
+    trailer = f"""<section class="trailer" id="trailer">
+  <canvas id="dynamics" aria-label="Interactive phase flow of ODEs and SDEs — choose a system from the controls"></canvas>
+  <div class="trailer-veil" aria-hidden="true"></div>
+  <div class="trailer-inner">
+    <div class="trailer-top">
+      <span class="eyebrow">Dynamical systems · a trailer</span>
+      <p class="trailer-title">Everything is <span class="accent">motion</span>.</p>
+      <p class="trailer-sub">Ordinary and stochastic differential equations, integrated live over their own vector-field geometry. Pick a flow and watch an ensemble propagate.</p>
+    </div>
+    <div class="trailer-bottom">
+      <div class="dyn-readout" aria-live="polite">
+        <span class="dyn-name"></span>
+        <span class="dyn-eq mono"></span>
+        <span class="dyn-note"></span>
+      </div>
+      <div class="trailer-legend" aria-hidden="true">
+        <span class="sink"><i></i> sink</span>
+        <span class="source"><i></i> source</span>
+        <span class="saddle"><i></i> saddle</span>
+      </div>
+      <div class="dyn-controls" role="group" aria-label="Choose a dynamical system to propagate"></div>
+    </div>
+  </div>
+  <a class="trailer-scroll" href="#home" aria-label="Enter the site"><span>enter</span><span class="bar"></span></a>
+</section>"""
+
+    # about
+    facts = "".join(
+        f'<div class="fact"><div class="k">{esc(f["label"])}</div><div class="v">{esc(f["value"])}</div></div>'
+        for f in ABOUT["quick_facts"])
+    about_paras = "".join(f"<p>{p}</p>" for p in ABOUT["paragraphs"])  # trusted HTML
+    about = f"""<section class="wrap" id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <span class="eyebrow">About</span>
+      <p class="about-lede">{esc(ABOUT['lede'])}</p>
+      <div class="about-body">{about_paras}</div>
+      <p class="status-strip">{esc(ABOUT['status_line'])}</p>
+    </div>
+    <div class="facts reveal d1">{facts}</div>
   </div>
 </section>"""
 
@@ -619,7 +630,7 @@ def page_home():
 
     contact = contact_section()
 
-    body = (hero + '<div class="wrap"><hr class="divider"></div>'
+    body = (trailer + hero + '<div class="wrap"><hr class="divider"></div>'
             + about + research + projects + pubs + writing + news + contact)
     return (head(f"{SITE['name']} — {SITE['role']}", SITE["description"], BASE_URL + "/")
             + body + footer(scripts='<script src="/assets/js/dynamics.js" defer></script>'))
