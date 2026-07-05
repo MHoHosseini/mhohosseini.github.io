@@ -44,10 +44,34 @@
   </div>
 </nav>
 <main id="top">
-<section class="hero wrap" id="home">
+<section class="trailer" id="trailer">
+  <canvas id="dynamics" aria-label="Interactive phase flow of ODEs and SDEs — choose a system from the controls"></canvas>
+  <div class="trailer-veil" aria-hidden="true"></div>
+  <div class="trailer-inner">
+    <div class="trailer-top">
+      <span class="eyebrow">Dynamical systems · a trailer</span>
+      <p class="trailer-title">Everything is <span class="accent">motion</span>.</p>
+      <p class="trailer-sub">Ordinary and stochastic differential equations, integrated live over their own vector-field geometry. Pick a flow and watch an ensemble propagate.</p>
+    </div>
+    <div class="trailer-bottom">
+      <div class="dyn-readout" aria-live="polite">
+        <span class="dyn-name"></span>
+        <span class="dyn-eq mono"></span>
+        <span class="dyn-note"></span>
+      </div>
+      <div class="trailer-legend" aria-hidden="true">
+        <span class="sink"><i></i> sink</span>
+        <span class="source"><i></i> source</span>
+        <span class="saddle"><i></i> saddle</span>
+      </div>
+      <div class="dyn-controls" role="group" aria-label="Choose a dynamical system to propagate"></div>
+    </div>
+  </div>
+  <a class="trailer-scroll" href="#home" aria-label="Enter the site"><span>enter</span><span class="bar"></span></a>
+</section><section class="hero wrap" id="home">
   <div class="hero-grid">
     <div class="hero-copy">
-      <span class="hero-status"><span class="dot"></span> M.Sc. @ Padova · applying for pure-math PhDs</span>
+      <span class="hero-status"><span class="dot"></span> M.Sc. Computer Science · University of Padova</span>
       <h1>S.&nbsp;Mohammad&nbsp;H.<br><span class="accent">Hosseini D.</span></h1>
       <p class="hero-identity"><span class="hl">Pure Mathematics</span> · Generative Models · Stochastic Processes · <span class="hl">Geometry &amp; Analysis</span></p>
       <p class="hero-lede">I'm drawn, above all, to pure mathematics — and to the surprising ways it becomes the language of generative models and deep learning.</p>
@@ -59,31 +83,7 @@
       <div class="hero-ticker"><span class="chip">optimal transport</span><span class="chip">flow matching</span><span class="chip">differential geometry</span><span class="chip">functional analysis</span><span class="chip">score-based SDEs</span><span class="chip">diffusion &amp; flow models</span><span class="chip">geometry of stochastic processes</span><span class="chip">Neural ODEs</span></div>
     </div>
     <div class="hero-media">
-      <div class="dyn-wrap">
-        <div class="dyn-panel">
-          <span class="dyn-corner">phase&nbsp;flow</span>
-          <canvas id="dynamics" aria-label="Interactive ODE and SDE phase flow — choose a system below"></canvas>
-          <div class="dyn-caption" aria-live="polite">
-            <span class="dyn-name"></span>
-            <span class="dyn-eq mono"></span>
-            <span class="dyn-note"></span>
-          </div>
-        </div>
-        <div class="dyn-controls" role="group" aria-label="Choose a dynamical system to propagate"></div>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-cue" aria-hidden="true"><span>scroll</span><span class="bar"></span></div>
-</section><div class="wrap"><hr class="divider"></div><section class="wrap" id="about">
-  <div class="about-grid">
-    <div class="reveal">
-      <span class="eyebrow">About</span>
-      <p class="about-lede">I'm drawn, above all, to pure mathematics — and to the surprising ways it becomes the language of generative models and deep learning.</p>
-      <div class="about-body"><p>My full name is Seyed MohammadHossein Hosseini Dastjae — not unlike Albus Percival Wulfric Brian Dumbledore — but I mostly go by <strong>Mamad</strong>. I hold a B.Sc. in Computer Engineering from the University of Isfahan, and I'm currently an M.Sc. student in <strong>Computer Science at the University of Padova</strong> (since October 2025), moving deliberately toward mathematics.</p><p>My centre of gravity is <strong>pure mathematics</strong>: I care most about the analytic and geometric structure beneath a model, and I find that generative modeling and deep learning are where that structure comes alive. The stochastic-calculus reading of diffusion and flow models; optimal transport as the geometry of distributions; homeomorphism interpolation by Neural ODEs; the kinship between flows and differential equations — these are the threads I keep pulling.</p><p>Over the coming months I'm focusing my applications toward <strong>PhDs in pure mathematics and generative models</strong>. The directions I most want to work in are <strong>optimal transport</strong>, <strong>differential geometry</strong>, and <strong>functional analysis</strong> — and, most of all, the likely connections between stochastic differential equations, geometry, and analysis. If any of this overlaps with what you're thinking about, I'd be glad to hear from you.</p></div>
-      <p class="status-strip">Currently: M.Sc. Computer Science @ University of Padova · applying for PhDs in pure mathematics &amp; generative models.</p>
-    </div>
-    <div class="reveal d1">
-      <div class="portrait-wrap" style="max-width:300px;margin:0 auto 1.6rem">
+      <div class="portrait-wrap">
         <div class="portrait-orbit" aria-hidden="true">
           <svg viewBox="0 0 400 400">
             <g class="portrait-spin">
@@ -99,11 +99,20 @@
           </svg>
         </div>
         <div class="portrait">
-          <img src="/assets/img/prof_pic.jpg" alt="Portrait of S. Mohammad H. Hosseini D." width="300" height="300" loading="lazy">
+          <img src="/assets/img/prof_pic.jpg" alt="Portrait of S. Mohammad H. Hosseini D." width="380" height="380">
         </div>
       </div>
-      <div class="facts"><div class="fact"><div class="k">Focus</div><div class="v">Optimal transport · Differential geometry · Generative models</div></div><div class="fact"><div class="k">Now</div><div class="v">M.Sc. Computer Science, University of Padova</div></div><div class="fact"><div class="k">Background</div><div class="v">B.Sc. Computer Engineering, University of Isfahan</div></div></div>
     </div>
+  </div>
+</section><div class="wrap"><hr class="divider"></div><section class="wrap" id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <span class="eyebrow">About</span>
+      <p class="about-lede">I'm drawn, above all, to pure mathematics — and to the surprising ways it becomes the language of generative models and deep learning.</p>
+      <div class="about-body"><p>My full name is Seyed MohammadHossein Hosseini Dastjae — not unlike Albus Percival Wulfric Brian Dumbledore — but I mostly go by <strong>Mamad</strong>. I hold a B.Sc. in Computer Engineering from the University of Isfahan, and I'm currently an M.Sc. student in <strong>Computer Science at the University of Padova</strong> (since October 2025), moving deliberately toward mathematics.</p><p>My centre of gravity is <strong>pure mathematics</strong>: I care most about the analytic and geometric structure beneath a model, and I find that generative modeling and deep learning are where that structure comes alive. The stochastic-calculus reading of diffusion and flow models; optimal transport as the geometry of distributions; homeomorphism interpolation by Neural ODEs; the kinship between flows and differential equations — these are the threads I keep pulling.</p><p>The directions I most want to work in are <strong>optimal transport</strong>, <strong>differential geometry</strong>, and <strong>functional analysis</strong> — and, most of all, the likely connections between stochastic differential equations, geometry, and analysis. My aim is to keep moving deeper into pure mathematics and its dialogue with generative models. If any of this overlaps with what you're thinking about, I'd be glad to hear from you.</p></div>
+      <p class="status-strip">Currently: M.Sc. Computer Science @ University of Padova · working toward pure mathematics &amp; generative models.</p>
+    </div>
+    <div class="facts reveal d1"><div class="fact"><div class="k">Focus</div><div class="v">Optimal transport · Differential geometry · Generative models</div></div><div class="fact"><div class="k">Now</div><div class="v">M.Sc. Computer Science, University of Padova</div></div><div class="fact"><div class="k">Background</div><div class="v">B.Sc. Computer Engineering, University of Isfahan</div></div></div>
   </div>
 </section><section class="wrap" id="research">
   <div class="section-head reveal">
