@@ -56,7 +56,7 @@ only on project pages that contain equations.
 ```
 .
 ├── build.py              # the whole generator (stdlib only)
-├── data/                 # ← EDIT CONTENT HERE (JSON)
+├── data/                 # ← EDIT CONTENT HERE (JSON + Markdown)
 │   ├── site.json         #   name, socials, meta, keywords
 │   ├── about.json        #   homepage bio + quick facts
 │   ├── research.json     #   the 6 "Research Universe" cards
@@ -64,11 +64,13 @@ only on project pages that contain equations.
 │   ├── publications.json #   papers / manuscripts
 │   ├── teaching.json     #   courses
 │   ├── news.json         #   news feed
-│   └── cv.json           #   CV timeline
+│   ├── cv.json           #   CV timeline
+│   └── blog/*.md         #   blog posts (Markdown + frontmatter)
 ├── src/
 │   ├── css/site.css      # ← EDIT STYLING / COLORS HERE
 │   └── js/
-│       ├── cosmos.js     # ← EDIT THE ANIMATED BACKGROUND HERE
+│       ├── cosmos.js     # ← the animated constellation background
+│       ├── dynamics.js   # ← the interactive ODE/SDE landing panel
 │       └── app.js        #   nav, filters, scroll reveals
 ├── assets/
 │   ├── img/              # diagrams + profile photo (build inputs)
@@ -78,8 +80,15 @@ only on project pages that contain equations.
 ```
 
 Pages generated: `/`, `/research/`, `/projects/`, `/projects/<slug>/` (one per
-project), `/publications/`, `/teaching/`, `/cv/`, plus `404.html`,
-`sitemap.xml`, `robots.txt`, `favicon.svg`, and `.nojekyll`.
+project), `/publications/`, `/teaching/`, `/blog/`, `/blog/<slug>/` (one per
+post), `/cv/`, plus `404.html`, `sitemap.xml`, `robots.txt`, `favicon.svg`, and
+`.nojekyll`.
+
+The **homepage landing** is an interactive ODE/SDE phase-flow panel
+(`src/js/dynamics.js`): pick a dynamical system and watch an ensemble of
+particles propagate under it, using the same particle palette as the background.
+The site mark is a minimal two-arm **cyclone** (spiral) defined in `build.py`
+(`GLYPH` for the nav, `FAVICON` for the tab icon).
 
 ---
 
@@ -156,6 +165,30 @@ Append to `data.publications` in `data/publications.json` (newest first):
 `"me": true` highlights your name in cyan; `selected: true` stars it and shows
 it on the homepage.
 
+### Add a blog post
+
+Create a Markdown file in `data/blog/` — the filename becomes the URL slug
+(`data/blog/my-post.md` → `/blog/my-post/`). Start it with a frontmatter block:
+
+```markdown
+---
+title: My post title
+date: 2026-07-05
+tags: optimal transport, geometry
+description: One-line summary shown on the blog index and social cards.
+math: true
+---
+
+Write in **Markdown**: headings (`##`), lists, `> quotes`, `code`, links, images.
+Inline math with $a^2 + b^2 = c^2$ and display math on its own line:
+
+$$ \int_0^1 f(x)\,dx $$
+```
+
+Set `math: true` (or just include a `$`) to load MathJax on that post. The two
+most recent posts also appear in the homepage "Writing" section. Run
+`python build.py` and the post, its page, and the sitemap update automatically.
+
 ### Other content
 
 - **Teaching** → `data/teaching.json` (image in `assets/img/`).
@@ -178,7 +211,14 @@ it on the homepage.
   `--font-*` tokens.
 - **Background animation** — `src/js/cosmos.js`. Tunable constants near the top:
   `nodeCount()` (density), `COLORS`, flow strength, `linkDist`, cursor radius.
-  The engine falls back to a single static frame under reduced-motion.
+- **Landing ODE/SDE panel** — `src/js/dynamics.js`. The `SYSTEMS` array defines
+  each system: its `name`, `kind` (`"ODE"`/`"SDE"`), display `eq`, `note`, the
+  vector field `f(x, y)`, and the noise level `sigma`. Add or remove a system by
+  editing that array — the selector buttons build themselves.
+- **Logo / favicon** — the cyclone mark lives in `build.py` (`GLYPH`, `FAVICON`,
+  and the `_CYC0`/`_CYC1` spiral paths).
+
+Both animations fall back to a single static frame under `prefers-reduced-motion`.
 
 ---
 
@@ -204,9 +244,14 @@ re-run Jekyll on the output).
 
 Nothing below was invented; uncertain facts were left blank or clearly flagged.
 
-- [ ] **Academic status** — the homepage `status_line` and CV say “researching /
-      open to opportunities.” Update with your current position (grad program,
-      lab, role) in `data/about.json` and `data/cv.json`.
+- [ ] **Location** — set to “Padua, Italy” in `data/site.json` / `data/cv.json`
+      on the assumption you relocated for the M.Sc. Confirm or change.
+- [ ] **Padova M.Sc.** — recorded as “M.Sc. Computer Science, University of
+      Padova, since Oct 2025.” Confirm the exact programme name and add an
+      expected graduation year in `data/cv.json` if you like.
+- [ ] **Flagship project** — the Padova OT-flow project links only to the OT-CFM
+      reference paper; add your own code/report link in `data/projects.json`
+      (`padova-traffic-ot-flow`) if you want to share it.
 - [ ] **Socials** in `data/site.json`:
   - [ ] GitHub is set to `MHoHosseini` — confirm it’s your public profile.
   - [ ] X/Twitter is `Xaocyc` (carried over from the old config) — keep or remove.

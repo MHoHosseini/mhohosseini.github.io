@@ -1,16 +1,16 @@
 {
   "greeting": "I'm Mamad.",
-  "lede": "I'm a machine-learning researcher who reads deep learning as applied mathematics — and mathematics as a source of new learning algorithms.",
+  "lede": "I'm drawn, above all, to pure mathematics — and to the surprising ways it becomes the language of generative models and deep learning.",
   "paragraphs": [
-    "My full name is Seyed MohammadHossein Hosseini Dastjae — not unlike Albus Percival Wulfric Brian Dumbledore — but I mostly go by <strong>Mamad</strong>. I hold a B.Sc. in Computer Engineering from the University of Isfahan, where my undergraduate work centered on statistical inference and generative modeling, alongside projects across computer vision, graph neural networks, and natural language processing.",
-    "What draws me is the way pure mathematics keeps generating ideas for machine learning. The stochastic-calculus reading of diffusion and flow models; homeomorphism interpolation carried out by Neural ODEs; the deep kinship between normalizing flows and the theory of differential equations — these are a few of the threads I keep pulling. I want to push further into more abstract structure: to find <strong>stochastic processes better suited to generative modeling</strong>, analytically and topologically.",
-    "Right now that means diffusion and score-based SDEs for structured and time-series data, density estimation and variational inference, and the geometry and topology of latent spaces. If any of this overlaps with what you're thinking about, I'd be glad to hear from you."
+    "My full name is Seyed MohammadHossein Hosseini Dastjae — not unlike Albus Percival Wulfric Brian Dumbledore — but I mostly go by <strong>Mamad</strong>. I hold a B.Sc. in Computer Engineering from the University of Isfahan, and I'm currently an M.Sc. student in <strong>Computer Science at the University of Padova</strong> (since October 2025), moving deliberately toward mathematics.",
+    "My centre of gravity is <strong>pure mathematics</strong>: I care most about the analytic and geometric structure beneath a model, and I find that generative modeling and deep learning are where that structure comes alive. The stochastic-calculus reading of diffusion and flow models; optimal transport as the geometry of distributions; homeomorphism interpolation by Neural ODEs; the kinship between flows and differential equations — these are the threads I keep pulling.",
+    "Over the coming months I'm focusing my applications toward <strong>PhDs in pure mathematics and generative models</strong>. The directions I most want to work in are <strong>optimal transport</strong>, <strong>differential geometry</strong>, and <strong>functional analysis</strong> — and, most of all, the likely connections between stochastic differential equations, geometry, and analysis. If any of this overlaps with what you're thinking about, I'd be glad to hear from you."
   ],
-  "status_line": "Currently: researching generative models & stochastic processes. Open to graduate & research opportunities.",
-  "status_todo": "Update this status line with your current position (e.g., graduate program, lab, or role) when confirmed.",
+  "status_line": "Currently: M.Sc. Computer Science @ University of Padova · applying for PhDs in pure mathematics & generative models.",
+  "status_todo": "Update this status line if your position or plans change.",
   "quick_facts": [
-    { "label": "Focus", "value": "Generative models · Stochastic processes · Topology" },
-    { "label": "Background", "value": "B.Sc. Computer Engineering, University of Isfahan" },
-    { "label": "Based in", "value": "Isfahan, Iran" }
+    { "label": "Focus", "value": "Optimal transport · Differential geometry · Generative models" },
+    { "label": "Now", "value": "M.Sc. Computer Science, University of Padova" },
+    { "label": "Background", "value": "B.Sc. Computer Engineering, University of Isfahan" }
   ]
 }

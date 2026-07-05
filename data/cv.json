@@ -3,16 +3,27 @@
   "note": "Items marked with a dashed border are editable placeholders — confirm or replace them. Nothing here is invented; uncertain facts are left blank on purpose. See the content checklist in README.md.",
   "profile": {
     "name": "Seyed MohammadHossein Hosseini Dastjae",
-    "label": "Researcher — Theoretical Machine Learning & Generative Models",
-    "location": "Isfahan, Iran",
+    "label": "M.Sc. Computer Science (Padova) — toward pure mathematics & generative models",
+    "location": "Padua, Italy",
     "email": "m.ho.hosseini@gmail.com",
-    "summary": "Machine-learning researcher with a B.Sc. in Computer Engineering from the University of Isfahan, working at the intersection of generative modeling, stochastic processes, density estimation, and the mathematical foundations of deep learning."
+    "summary": "Mathematics-minded researcher, currently an M.Sc. Computer Science student at the University of Padova, working at the meeting point of pure mathematics and generative modeling — optimal transport, differential geometry, functional analysis, and the geometry of stochastic differential equations."
   },
   "sections": [
     {
       "title": "Education",
       "type": "timeline",
       "items": [
+        {
+          "period": "Oct 2025 — present",
+          "title": "M.Sc. in Computer Science",
+          "org": "University of Padova",
+          "location": "Padua, Italy",
+          "details": [
+            "Focusing coursework and projects toward mathematics — optimal transport, generative models, and the analysis of stochastic dynamics.",
+            "Deep-learning challenge work on optimal-transport flow matching (see Projects)."
+          ],
+          "todo": false
+        },
         {
           "period": "— 2023",
           "title": "B.Sc. in Computer Engineering",
@@ -23,44 +34,44 @@
             "Undergraduate focus on statistical inference and generative modeling."
           ],
           "todo": false
-        },
-        {
-          "period": "",
-          "title": "Graduate study",
-          "org": "",
-          "location": "",
-          "details": [
-            "Add current or prospective graduate program (institution, degree, dates) here."
-          ],
-          "todo": true
         }
       ]
     },
     {
-      "title": "Research Experience",
+      "title": "Research & Projects",
       "type": "timeline",
       "items": [
         {
+          "period": "2026",
+          "title": "Optimal-transport flow matching for traffic forecasting",
+          "org": "University of Padova — Deep Learning challenge",
+          "location": "",
+          "details": [
+            "A generative OT conditional-flow-matching model stacked on a seasonal anchor and a Transformer trunk, with honest-holdout arbitration."
+          ],
+          "todo": false
+        },
+        {
           "period": "2024 — present",
           "title": "Generative models for time-series data",
-          "org": "Independent / collaborative research",
+          "org": "Collaborative research",
           "location": "",
           "details": [
             "Extending the score-based SDE framework of diffusion models toward time-series data (manuscript in preparation).",
             "Diffusion-based meta-learning for retail forecasting (submitted to EJOR)."
           ],
           "todo": false
-        },
-        {
-          "period": "",
-          "title": "Add advisor / lab / group",
-          "org": "",
-          "location": "",
-          "details": [
-            "If this research was done within a specific lab or under an advisor, add the details here."
-          ],
-          "todo": true
         }
+      ]
+    },
+    {
+      "title": "Research Interests",
+      "type": "list",
+      "items": [
+        "Optimal transport and the geometry of probability distributions",
+        "Differential geometry & functional analysis in machine learning",
+        "Stochastic differential equations — geometry and analysis",
+        "Generative models: diffusion, flow matching, normalizing flows"
       ]
     },
     {
@@ -72,9 +83,7 @@
           "title": "Instructor — Deep Learning with PyTorch",
           "org": "University of Isfahan",
           "location": "Online course",
-          "details": [
-            "Designed and taught an end-to-end deep-learning course in PyTorch."
-          ],
+          "details": ["Designed and taught an end-to-end deep-learning course in PyTorch."],
           "todo": false
         },
         {
@@ -82,9 +91,7 @@
           "title": "Teaching Assistant — Advanced Programming Concepts (Java)",
           "org": "University of Isfahan",
           "location": "",
-          "details": [
-            "Supported an undergraduate course on object-oriented programming and software engineering in Java."
-          ],
+          "details": ["Supported an undergraduate course on object-oriented programming and software engineering in Java."],
           "todo": false
         }
       ]
@@ -94,8 +101,8 @@
       "type": "skills",
       "groups": [
         { "label": "Programming", "items": ["Python", "PyTorch", "NumPy / SciPy", "Java"] },
-        { "label": "Machine Learning", "items": ["Generative models", "Diffusion & flows", "Variational inference", "Graph neural networks"] },
-        { "label": "Mathematics", "items": ["Probability & statistics", "Stochastic calculus", "Differential equations", "Topology"] }
+        { "label": "Machine Learning", "items": ["Generative models", "Diffusion & flow matching", "Optimal transport", "Variational inference"] },
+        { "label": "Mathematics", "items": ["Analysis & functional analysis", "Differential geometry", "Probability & stochastic calculus", "Topology"] }
       ]
     },
     {

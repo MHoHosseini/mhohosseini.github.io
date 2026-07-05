@@ -72,6 +72,9 @@ body {
 }
 
 img, svg, canvas { display: block; max-width: 100%; }
+/* keep MathJax inline math inline (overrides the svg reset above) */
+mjx-container svg { display: inline-block; }
+mjx-container[display="true"] { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; }
 a { color: var(--cyan); text-decoration: none; transition: color 0.2s var(--ease); }
 a:hover { color: var(--text-strong); }
 :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
@@ -484,11 +487,86 @@ footer.site {
 /* scroll progress bar */
 .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; width: 0; z-index: 200; background: linear-gradient(90deg, var(--cyan), var(--violet)); box-shadow: 0 0 10px var(--glow-cyan); }
 
+/* ---- Interactive dynamics (landing) ----------------------------------- */
+.dyn-wrap { width: 100%; max-width: 460px; margin-inline: auto; }
+.dyn-panel {
+  position: relative; aspect-ratio: 1 / 1; width: 100%; border-radius: var(--radius);
+  overflow: hidden; border: 1px solid var(--border-strong);
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(76,141,255,0.10), transparent 60%),
+    linear-gradient(180deg, #070b17, #05070f);
+  box-shadow: 0 30px 70px -34px rgba(0,0,0,0.9), inset 0 0 60px rgba(5,10,25,0.6);
+}
+#dynamics { position: absolute; inset: 0; width: 100%; height: 100%; }
+.dyn-panel::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 46px rgba(5,8,18,0.8);
+  background: radial-gradient(90% 90% at 50% 45%, transparent 62%, rgba(5,7,15,0.55));
+}
+.dyn-caption {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, transparent, rgba(5,7,15,0.85)); pointer-events: none;
+}
+.dyn-caption .dyn-name { display: block; font-family: var(--font-display); font-size: 1.02rem; color: var(--text-strong); }
+.dyn-caption .dyn-eq { display: block; font-family: var(--font-mono); font-size: 0.78rem; color: var(--cyan); margin-top: 0.15rem; }
+.dyn-caption .dyn-note { display: block; font-size: 0.76rem; color: var(--muted); margin-top: 0.35rem; }
+.dyn-corner { position: absolute; top: 0.85rem; left: 1rem; z-index: 2; font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted-dim); }
+.dyn-controls { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.55rem; }
+.dyn-group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.dyn-group-label { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.16em; color: var(--muted-dim); width: 2.4rem; }
+.dyn-btn {
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted);
+  background: rgba(120,160,240,0.05); border: 1px solid var(--border); border-radius: 999px;
+  padding: 0.32rem 0.7rem; cursor: pointer; transition: all 0.2s var(--ease);
+}
+.dyn-btn:hover { color: var(--text-strong); border-color: var(--border-strong); }
+.dyn-btn.active { color: #04101a; background: linear-gradient(120deg, var(--cyan), var(--violet)); border-color: transparent; }
+
+/* ---- Blog ------------------------------------------------------------- */
+.blog-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.2rem; }
+.blog-card {
+  position: relative; display: flex; flex-direction: column; padding: 1.5rem 1.5rem 1.4rem;
+  border-radius: var(--radius); background: var(--panel); border: 1px solid var(--border);
+  backdrop-filter: blur(8px); transition: transform 0.35s var(--ease), border-color 0.35s, box-shadow 0.35s;
+}
+.blog-card:hover { transform: translateY(-5px); border-color: var(--border-strong); box-shadow: var(--shadow-soft); }
+.blog-card .post-meta { font-family: var(--font-mono); font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.04em; }
+.blog-card h3 { font-size: 1.3rem; margin: 0.5rem 0 0.4rem; }
+.blog-card p { color: var(--muted); font-size: 0.94rem; flex: 1; }
+.blog-card .post-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+.blog-card .read { font-family: var(--font-mono); font-size: 0.76rem; color: var(--cyan); margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.4rem; }
+.blog-card:hover .read { gap: 0.6rem; }
+.blog-card .card-link { position: absolute; inset: 0; z-index: 3; }
+
+.post-hero { padding-top: calc(var(--nav-h) + 3.5rem); padding-bottom: 0.5rem; }
+.post-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0.8rem 0 0.7rem; }
+.post-meta-row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.post-meta-row .dot { color: var(--muted-dim); }
+
+/* long-form prose */
+.prose { max-width: var(--maxw-narrow); font-size: 1.06rem; }
+.prose > * + * { margin-top: 1.1rem; }
+.prose h2 { font-size: 1.7rem; margin-top: 2.4rem; }
+.prose h3 { font-size: 1.3rem; margin-top: 1.8rem; }
+.prose p { color: var(--text); }
+.prose a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(56,225,214,0.4); }
+.prose strong { color: var(--text-strong); }
+.prose ul, .prose ol { padding-left: 1.4rem; color: var(--text); display: flex; flex-direction: column; gap: 0.4rem; }
+.prose li::marker { color: var(--cyan); }
+.prose blockquote { border-left: 2px solid var(--cyan); padding: 0.3rem 0 0.3rem 1.2rem; color: var(--muted); font-style: italic; }
+.prose code { font-family: var(--font-mono); font-size: 0.88em; background: rgba(120,160,240,0.1); border: 1px solid var(--border); border-radius: 5px; padding: 0.1em 0.4em; }
+.prose pre { background: rgba(8,13,28,0.8); border: 1px solid var(--border); border-left: 2px solid var(--violet); border-radius: var(--radius-sm); padding: 1.1rem 1.3rem; overflow-x: auto; }
+.prose pre code { background: none; border: 0; padding: 0; font-size: 0.86rem; color: var(--text); }
+.prose img { border-radius: var(--radius-sm); border: 1px solid var(--border); margin-inline: auto; }
+.prose hr { border: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--border-strong), transparent); margin: 2rem 0; }
+.prose .equation { font-size: 1rem; }
+
 /* ---- Responsive ------------------------------------------------------- */
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .hero-media { order: -1; }
   .portrait-wrap { max-width: 260px; }
+  .dyn-wrap { max-width: 380px; }
   .about-grid { grid-template-columns: 1fr; }
   .nav-links {
     position: fixed; top: var(--nav-h); left: 0; right: 0; width: 100%;

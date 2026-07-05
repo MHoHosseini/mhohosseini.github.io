@@ -19,7 +19,7 @@ import re
 import html
 import shutil
 from pathlib import Path
-from datetime import date
+from datetime import date, datetime
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -72,19 +72,147 @@ def md(s):
     s = _ITAL.sub(r"<em>\1</em>", s)
     return s
 
+_IMG = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
+
+def _inline_prose(s):
+    """Inline markdown for blog prose. Leaves $math$ for MathJax."""
+    s = esc(s)
+    s = _IMG.sub(r'<img src="\2" alt="\1" loading="lazy" decoding="async">', s)
+    s = _CODE.sub(r"<code>\1</code>", s)
+    s = _LINK.sub(r'<a href="\2">\1</a>', s)
+    s = _BOLD.sub(r"<strong>\1</strong>", s)
+    s = _ITAL.sub(r"<em>\1</em>", s)
+    return s
+
+def md_to_html(text):
+    """A small block-level Markdown -> HTML converter (headings, lists, quotes,
+    code fences, hr, display math $$..$$). Inline $math$ is left for MathJax."""
+    lines = text.split("\n")
+    n = len(lines)
+    out, para, i = [], [], 0
+
+    def flush():
+        if para:
+            out.append("<p>" + _inline_prose(" ".join(para).strip()) + "</p>")
+            para.clear()
+
+    while i < n:
+        s = lines[i].strip()
+        if s.startswith("```"):
+            flush(); i += 1; buf = []
+            while i < n and not lines[i].strip().startswith("```"):
+                buf.append(lines[i]); i += 1
+            i += 1
+            out.append("<pre><code>" + esc("\n".join(buf)) + "</code></pre>"); continue
+        if s.startswith("$$"):
+            flush()
+            if s.count("$$") >= 2 and len(s) > 4:
+                content = s; i += 1
+            else:
+                blk = [s]; i += 1
+                while i < n and "$$" not in lines[i]:
+                    blk.append(lines[i]); i += 1
+                if i < n: blk.append(lines[i].strip()); i += 1
+                content = "\n".join(blk)
+            out.append('<div class="equation">' + esc(content) + "</div>"); continue
+        if s == "":
+            flush(); i += 1; continue
+        m = re.match(r"^(#{1,4})\s+(.*)$", s)
+        if m:
+            flush(); tag = {1: "h2", 2: "h3", 3: "h4", 4: "h4"}[len(m.group(1))]
+            out.append(f"<{tag}>" + _inline_prose(m.group(2)) + f"</{tag}>"); i += 1; continue
+        if re.match(r"^(-{3,}|\*{3,}|_{3,})$", s):
+            flush(); out.append("<hr>"); i += 1; continue
+        if s.startswith(">"):
+            flush(); q = []
+            while i < n and lines[i].strip().startswith(">"):
+                q.append(lines[i].strip()[1:].strip()); i += 1
+            out.append("<blockquote>" + _inline_prose(" ".join(q)) + "</blockquote>"); continue
+        if re.match(r"^[-*]\s+", s):
+            flush(); items = []
+            while i < n and re.match(r"^[-*]\s+", lines[i].strip()):
+                items.append("<li>" + _inline_prose(re.sub(r"^[-*]\s+", "", lines[i].strip())) + "</li>"); i += 1
+            out.append("<ul>" + "".join(items) + "</ul>"); continue
+        if re.match(r"^\d+\.\s+", s):
+            flush(); items = []
+            while i < n and re.match(r"^\d+\.\s+", lines[i].strip()):
+                items.append("<li>" + _inline_prose(re.sub(r"^\d+\.\s+", "", lines[i].strip())) + "</li>"); i += 1
+            out.append("<ol>" + "".join(items) + "</ol>"); continue
+        para.append(s); i += 1
+    flush()
+    return "\n".join(out)
+
+def fmt_date(s):
+    s = (s or "").strip()
+    try:
+        d = datetime.strptime(s, "%Y-%m-%d")
+        return d.strftime("%b") + f" {d.day}, {d.year}"
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(s, "%Y-%m").strftime("%b %Y")
+    except ValueError:
+        return s
+
+def load_blog():
+    posts = []
+    bdir = DATA / "blog"
+    if not bdir.exists():
+        return posts
+    for fp in sorted(bdir.glob("*.md")):
+        raw = fp.read_text(encoding="utf-8")
+        meta, body = {}, raw
+        if raw.startswith("---"):
+            parts = raw.split("---", 2)
+            if len(parts) >= 3:
+                _, fm, body = parts
+                for line in fm.strip().splitlines():
+                    if ":" in line:
+                        k, v = line.split(":", 1)
+                        meta[k.strip()] = v.strip()
+        tags = [t.strip() for t in meta.get("tags", "").split(",") if t.strip()]
+        posts.append({
+            "slug": fp.stem,
+            "title": meta.get("title", fp.stem),
+            "date": meta.get("date", ""),
+            "description": meta.get("description", ""),
+            "tags": tags,
+            "math": meta.get("math", "").lower() == "true" or "$" in body,
+            "body": body.strip(),
+        })
+    posts.sort(key=lambda p: p["date"], reverse=True)
+    return posts
+
+BLOG = load_blog()
+
 
 # --------------------------------------------------------------------------- #
 #  SVG assets
 # --------------------------------------------------------------------------- #
+# A minimal two-arm cyclone (logarithmic spiral) — the site mark.
+_CYC0 = ("M 17.05 16.00 L 17.08 16.17 L 17.09 16.35 L 17.07 16.53 L 17.02 16.72 L 16.94 16.91 "
+         "L 16.82 17.09 L 16.67 17.26 L 16.49 17.41 L 16.28 17.53 L 16.05 17.63 L 15.79 17.69 "
+         "L 15.51 17.71 L 15.22 17.69 L 14.92 17.62 L 14.63 17.50 L 14.34 17.32 L 14.08 17.10 "
+         "L 13.84 16.83 L 13.63 16.51 L 13.48 16.14 L 13.37 15.74 L 13.33 15.31 L 13.35 14.86 "
+         "L 13.44 14.40 L 13.62 13.94 L 13.87 13.49 L 14.21 13.06 L 14.62 12.68 L 15.11 12.35 "
+         "L 15.66 12.09 L 16.28 11.91 L 16.95 11.82 L 17.65 11.84 L 18.37 11.97 L 19.10 12.21 "
+         "L 19.80 12.59 L 20.48 13.09 L 21.09 13.71 L 21.62 14.45 L 22.05 15.31 L 22.36 16.25 "
+         "L 22.53 17.28 L 22.53 18.37 L 22.36 19.50")
+_CYC1 = ("M 14.95 16.00 L 14.92 15.83 L 14.91 15.65 L 14.93 15.47 L 14.98 15.28 L 15.06 15.09 "
+         "L 15.18 14.91 L 15.33 14.74 L 15.51 14.59 L 15.72 14.47 L 15.95 14.37 L 16.21 14.31 "
+         "L 16.49 14.29 L 16.78 14.31 L 17.08 14.38 L 17.37 14.50 L 17.66 14.68 L 17.92 14.90 "
+         "L 18.16 15.17 L 18.37 15.49 L 18.52 15.86 L 18.63 16.26 L 18.67 16.69 L 18.65 17.14 "
+         "L 18.56 17.60 L 18.38 18.06 L 18.13 18.51 L 17.79 18.94 L 17.38 19.32 L 16.89 19.65 "
+         "L 16.34 19.91 L 15.72 20.09 L 15.05 20.18 L 14.35 20.16 L 13.63 20.03 L 12.90 19.79 "
+         "L 12.20 19.41 L 11.52 18.91 L 10.91 18.29 L 10.38 17.55 L 9.95 16.69 L 9.64 15.75 "
+         "L 9.47 14.72 L 9.47 13.63 L 9.64 12.50")
+
 GLYPH = (
     '<svg class="glyph" viewBox="0 0 32 32" fill="none" aria-hidden="true">'
-    '<circle cx="16" cy="16" r="14" stroke="url(#g1)" stroke-width="1" opacity="0.5"/>'
-    '<line x1="8" y1="22" x2="16" y2="9" stroke="#38e1d6" stroke-width="1" opacity="0.7"/>'
-    '<line x1="16" y1="9" x2="24" y2="20" stroke="#4c8dff" stroke-width="1" opacity="0.7"/>'
-    '<line x1="24" y1="20" x2="8" y2="22" stroke="#a689fb" stroke-width="1" opacity="0.5"/>'
-    '<circle cx="8" cy="22" r="2" fill="#38e1d6"/><circle cx="16" cy="9" r="2.4" fill="#4c8dff"/>'
-    '<circle cx="24" cy="20" r="2" fill="#a689fb"/>'
-    '<defs><linearGradient id="g1" x1="0" y1="0" x2="32" y2="32">'
+    f'<path d="{_CYC0}" stroke="url(#cyc)" stroke-width="1.5" stroke-linecap="round"/>'
+    f'<path d="{_CYC1}" stroke="url(#cyc)" stroke-width="1.5" stroke-linecap="round"/>'
+    '<circle cx="16" cy="16" r="1.7" fill="#38e1d6"/>'
+    '<defs><linearGradient id="cyc" x1="9" y1="12" x2="23" y2="20">'
     '<stop stop-color="#38e1d6"/><stop offset="1" stop-color="#a689fb"/></linearGradient></defs></svg>'
 )
 
@@ -117,6 +245,11 @@ MOTIFS = {
         '<circle cx="10" cy="12" r="2.6"/><circle cx="38" cy="10" r="2.6"/><circle cx="24" cy="26" r="2.6"/>'
         '<circle cx="12" cy="38" r="2.6"/><circle cx="38" cy="36" r="2.6"/>'
         '<path d="M10 12 L24 26 M38 10 L24 26 M12 38 L24 26 M38 36 L24 26 M10 12 L38 10" opacity="0.55"/>'),
+    "sde": _svg(
+        '<path d="M5 24 L9 18 L12 27 L16 14 L19 25 L23 12 L26 22 L30 15 L33 24 L37 13 L41 21" opacity="0.85"/>'
+        '<path d="M5 24 C 14 22, 28 20, 41 16" opacity="0.4" stroke-dasharray="2 3"/>'
+        '<path d="M41 21 l3 -1 m-3 1 l1 3" opacity="0.85"/>'
+        '<circle cx="5" cy="24" r="1.8" fill="currentColor" stroke="none"/>'),
     "constellation": _svg(
         '<path d="M6 30 L16 12 L27 22 L38 8 L42 26 L30 38 L16 30 Z" opacity="0.4"/>'
         '<circle cx="6" cy="30" r="1.6" fill="currentColor" stroke="none"/>'
@@ -137,8 +270,8 @@ def icon(name):
         "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
         "external": '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
     }
-    return (f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{p[name]}</svg>')
+    return (f'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+            f'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{p[name]}</svg>')
 
 SOCIAL_ICONS = {
     "email": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
@@ -167,6 +300,7 @@ NAV_ITEMS = [
     ("Projects", "/projects/", "projects"),
     ("Publications", "/publications/", "publications"),
     ("Teaching", "/teaching/", "teaching"),
+    ("Blog", "/blog/", "blog"),
     ("CV", "/cv/", "cv"),
 ]
 
@@ -223,6 +357,8 @@ def _active_from_canonical(canonical):
             return key
     if path.startswith("/projects/"):
         return "projects"
+    if path.startswith("/blog/"):
+        return "blog"
     return "home"
 
 def ld_person():
@@ -256,7 +392,7 @@ def navbar(active):
   </div>
 </nav>"""
 
-def footer(math=False):
+def footer(math=False, scripts=""):
     s = SITE["socials"]
     fl = []
     if s.get("email"):  fl.append(f'<a href="mailto:{esc_attr(s["email"])}">Email</a>')
@@ -275,6 +411,7 @@ def footer(math=False):
 </footer>
 <script src="/assets/js/cosmos.js" defer></script>
 <script src="/assets/js/app.js" defer></script>
+{scripts}
 {m}
 </body>
 </html>"""
@@ -359,9 +496,9 @@ def page_home():
     hero = f"""<section class="hero wrap" id="home">
   <div class="hero-grid">
     <div class="hero-copy">
-      <span class="hero-status"><span class="dot"></span> Open to graduate &amp; research opportunities</span>
+      <span class="hero-status"><span class="dot"></span> M.Sc. @ Padova · applying for pure-math PhDs</span>
       <h1>S.&nbsp;Mohammad&nbsp;H.<br><span class="accent">Hosseini D.</span></h1>
-      <p class="hero-identity"><span class="hl">Machine Learning</span> · Generative Models · Stochastic Processes · <span class="hl">Mathematical Structure</span></p>
+      <p class="hero-identity"><span class="hl">Pure Mathematics</span> · Generative Models · Stochastic Processes · <span class="hl">Geometry &amp; Analysis</span></p>
       <p class="hero-lede">{esc(ABOUT['lede'])}</p>
       <div class="btn-row">
         <a class="btn btn-primary" href="/research/">Explore research {icon('arrow')}</a>
@@ -371,24 +508,17 @@ def page_home():
       <div class="hero-ticker">{ticker}</div>
     </div>
     <div class="hero-media">
-      <div class="portrait-wrap">
-        <div class="portrait-orbit" aria-hidden="true">
-          <svg viewBox="0 0 400 400">
-            <g class="portrait-spin">
-              <circle class="ring" cx="200" cy="200" r="196"/>
-              <circle class="node" cx="200" cy="4" r="3.5"/>
-              <circle class="node" cx="396" cy="200" r="2.5"/>
-            </g>
-            <g class="portrait-spin rev">
-              <circle class="ring" cx="200" cy="200" r="168" opacity="0.35"/>
-              <circle class="node" cx="32" cy="200" r="2.5"/>
-              <circle class="node" cx="200" cy="368" r="3"/>
-            </g>
-          </svg>
+      <div class="dyn-wrap">
+        <div class="dyn-panel">
+          <span class="dyn-corner">phase&nbsp;flow</span>
+          <canvas id="dynamics" aria-label="Interactive ODE and SDE phase flow — choose a system below"></canvas>
+          <div class="dyn-caption" aria-live="polite">
+            <span class="dyn-name"></span>
+            <span class="dyn-eq mono"></span>
+            <span class="dyn-note"></span>
+          </div>
         </div>
-        <div class="portrait">
-          <img src="/assets/img/prof_pic.jpg" alt="Portrait of {esc_attr(SITE['name'])}" width="380" height="380">
-        </div>
+        <div class="dyn-controls" role="group" aria-label="Choose a dynamical system to propagate"></div>
       </div>
     </div>
   </div>
@@ -408,7 +538,28 @@ def page_home():
       <div class="about-body">{about_paras}</div>
       <p class="status-strip">{esc(ABOUT['status_line'])}</p>
     </div>
-    <div class="facts reveal d1">{facts}</div>
+    <div class="reveal d1">
+      <div class="portrait-wrap" style="max-width:300px;margin:0 auto 1.6rem">
+        <div class="portrait-orbit" aria-hidden="true">
+          <svg viewBox="0 0 400 400">
+            <g class="portrait-spin">
+              <circle class="ring" cx="200" cy="200" r="196"/>
+              <circle class="node" cx="200" cy="4" r="3.5"/>
+              <circle class="node" cx="396" cy="200" r="2.5"/>
+            </g>
+            <g class="portrait-spin rev">
+              <circle class="ring" cx="200" cy="200" r="168" opacity="0.35"/>
+              <circle class="node" cx="32" cy="200" r="2.5"/>
+              <circle class="node" cx="200" cy="368" r="3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="portrait">
+          <img src="/assets/img/prof_pic.jpg" alt="Portrait of {esc_attr(SITE['name'])}" width="300" height="300" loading="lazy">
+        </div>
+      </div>
+      <div class="facts">{facts}</div>
+    </div>
   </div>
 </section>"""
 
@@ -417,7 +568,7 @@ def page_home():
     research = f"""<section class="wrap" id="research">
   <div class="section-head reveal">
     <span class="eyebrow">Research Universe</span>
-    <h2>Six threads through one question</h2>
+    <h2>Where pure mathematics meets learning</h2>
     <p>{esc(RESEARCH['intro'])}</p>
   </div>
   <div class="research-grid">{cards}</div>
@@ -445,6 +596,18 @@ def page_home():
   <div class="pub-list">{pitems}</div>
 </section>"""
 
+    # writing (blog teaser)
+    writing = ""
+    if BLOG:
+        wcards = "".join(blog_card(p) for p in BLOG[:2])
+        writing = f"""<section class="wrap" id="writing">
+  <div class="home-sub-head">
+    <div class="section-head reveal"><span class="eyebrow">Writing</span><h2>From the blog</h2></div>
+    <a class="view-all reveal" href="/blog/">All posts {icon('arrow')}</a>
+  </div>
+  <div class="blog-list">{wcards}</div>
+</section>"""
+
     # news
     news_items = "".join(
         f'<li class="news-item reveal"><span class="news-date">{esc(n["date"])}</span><span class="news-body">{n["html"]}</span></li>'
@@ -456,9 +619,10 @@ def page_home():
 
     contact = contact_section()
 
-    body = hero + '<div class="wrap"><hr class="divider"></div>' + about + research + projects + pubs + news + contact
+    body = (hero + '<div class="wrap"><hr class="divider"></div>'
+            + about + research + projects + pubs + writing + news + contact)
     return (head(f"{SITE['name']} — {SITE['role']}", SITE["description"], BASE_URL + "/")
-            + body + footer())
+            + body + footer(scripts='<script src="/assets/js/dynamics.js" defer></script>'))
 
 
 def contact_section():
@@ -701,6 +865,59 @@ def page_cv():
             + body + footer())
 
 
+def blog_card(p):
+    tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in p["tags"][:3])
+    return f"""<article class="blog-card reveal">
+  <a class="card-link" href="/blog/{p['slug']}/" aria-label="{esc_attr(p['title'])}"></a>
+  <div class="post-meta">{esc(fmt_date(p['date']))}</div>
+  <h3>{esc(p['title'])}</h3>
+  <p>{esc(p['description'])}</p>
+  <div class="post-tags">{tags}</div>
+  <span class="read">Read {icon('arrow')}</span>
+</article>"""
+
+def page_blog_index():
+    cards = "".join(blog_card(p) for p in BLOG) or '<p class="muted">No posts yet.</p>'
+    body = f"""<section class="wrap" style="padding-top:calc(var(--nav-h) + 4rem)">
+  <div class="section-head reveal">
+    <span class="eyebrow">Blog</span>
+    <h2>Notes &amp; derivations</h2>
+    <p>Thinking out loud about pure mathematics, generative models, optimal transport, and the geometry of stochastic dynamics.</p>
+  </div>
+  <div class="blog-list">{cards}</div>
+</section>"""
+    return (head(f"Blog — {SITE['name']}",
+                 "Essays and notes on pure mathematics, optimal transport, generative models, and stochastic dynamics.",
+                 BASE_URL + "/blog/")
+            + body + footer())
+
+def page_blog_post(p, newer, older):
+    content = md_to_html(p["body"])
+    tags = "".join(f'<span class="meta-pill">{esc(t)}</span>' for t in p["tags"])
+    dot = '<span class="dot">·</span>' if p["tags"] else ""
+    nav = '<div class="detail-nav">'
+    if newer:
+        nav += f'<a href="/blog/{newer["slug"]}/"><span class="lbl">← Newer</span>{esc(newer["title"])}</a>'
+    else:
+        nav += "<span></span>"
+    if older:
+        nav += f'<a href="/blog/{older["slug"]}/" style="text-align:right"><span class="lbl">Older →</span>{esc(older["title"])}</a>'
+    nav += "</div>"
+    body = f"""<section class="wrap post-hero">
+  <a class="back-link" href="/blog/">{icon('arrow-l')} All posts</a>
+  <span class="eyebrow">Blog</span>
+  <h1>{esc(p['title'])}</h1>
+  <div class="post-meta-row"><span>{esc(fmt_date(p['date']))}</span>{dot}{tags}</div>
+</section>
+<section class="wrap" style="padding-top:1rem">
+  <article class="prose">{content}</article>
+  <div style="max-width:var(--maxw-narrow)">{nav}</div>
+</section>"""
+    return (head(f"{p['title']} — {SITE['name']}", p["description"] or p["title"],
+                 BASE_URL + f"/blog/{p['slug']}/", math=p["math"])
+            + body + footer(math=p["math"]))
+
+
 def page_404():
     body = f"""<section class="wrap" style="min-height:70svh;display:grid;place-items:center;text-align:center">
   <div class="reveal">
@@ -716,14 +933,13 @@ def page_404():
 # --------------------------------------------------------------------------- #
 #  Static assets
 # --------------------------------------------------------------------------- #
-FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+FAVICON = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
 <rect width="32" height="32" rx="7" fill="#05070f"/>
-<line x1="8" y1="22" x2="16" y2="9" stroke="#38e1d6" stroke-width="1.3"/>
-<line x1="16" y1="9" x2="24" y2="20" stroke="#4c8dff" stroke-width="1.3"/>
-<line x1="24" y1="20" x2="8" y2="22" stroke="#a689fb" stroke-width="1.3" opacity="0.7"/>
-<circle cx="8" cy="22" r="2" fill="#38e1d6"/>
-<circle cx="16" cy="9" r="2.5" fill="#4c8dff"/>
-<circle cx="24" cy="20" r="2" fill="#a689fb"/>
+<path d="{_CYC0}" fill="none" stroke="url(#f)" stroke-width="1.7" stroke-linecap="round"/>
+<path d="{_CYC1}" fill="none" stroke="url(#f)" stroke-width="1.7" stroke-linecap="round"/>
+<circle cx="16" cy="16" r="1.9" fill="#38e1d6"/>
+<defs><linearGradient id="f" x1="9" y1="12" x2="23" y2="20">
+<stop stop-color="#38e1d6"/><stop offset="1" stop-color="#a689fb"/></linearGradient></defs>
 </svg>"""
 
 def sitemap(urls):
@@ -770,6 +986,13 @@ def main():
         next_p = ordered[i + 1] if i < len(ordered) - 1 else None
         write(f"projects/{p['id']}/index.html", page_project_detail(p, prev_p, next_p))
 
+    # ---- blog ----
+    write("blog/index.html", page_blog_index())
+    for i, p in enumerate(BLOG):
+        newer = BLOG[i - 1] if i > 0 else None
+        older = BLOG[i + 1] if i < len(BLOG) - 1 else None
+        write(f"blog/{p['slug']}/index.html", page_blog_post(p, newer, older))
+
     # ---- static files ----
     write("favicon.svg", FAVICON)
     write("robots.txt", ROBOTS)
@@ -777,17 +1000,20 @@ def main():
 
     urls = [(BASE_URL + "/", "1.0"), (BASE_URL + "/research/", "0.8"),
             (BASE_URL + "/projects/", "0.9"), (BASE_URL + "/publications/", "0.8"),
-            (BASE_URL + "/teaching/", "0.6"), (BASE_URL + "/cv/", "0.6")]
+            (BASE_URL + "/teaching/", "0.6"), (BASE_URL + "/blog/", "0.7"),
+            (BASE_URL + "/cv/", "0.6")]
     for p in ordered:
         urls.append((BASE_URL + f"/projects/{p['id']}/", "0.6"))
+    for p in BLOG:
+        urls.append((BASE_URL + f"/blog/{p['slug']}/", "0.6"))
     write("sitemap.xml", sitemap(urls))
 
     # ---- copy CSS / JS ----
     (OUT / "assets" / "css").mkdir(parents=True, exist_ok=True)
     (OUT / "assets" / "js").mkdir(parents=True, exist_ok=True)
     shutil.copy2(SRC / "css" / "site.css", OUT / "assets" / "css" / "site.css")
-    shutil.copy2(SRC / "js" / "cosmos.js", OUT / "assets" / "js" / "cosmos.js")
-    shutil.copy2(SRC / "js" / "app.js", OUT / "assets" / "js" / "app.js")
+    for js in ("cosmos.js", "app.js", "dynamics.js"):
+        shutil.copy2(SRC / "js" / js, OUT / "assets" / "js" / js)
 
     # ---- copy referenced images ----
     img_out = OUT / "assets" / "img"
@@ -815,9 +1041,10 @@ def main():
         missing.append("Curriculum_Vitae.pdf")
 
     # ---- report ----
-    n_pages = 7 + len(ordered)
+    n_pages = 8 + len(ordered) + len(BLOG)
     print(f"[ok] Built {n_pages} pages into {OUT}")
     print(f"     - {len(ordered)} project detail pages")
+    print(f"     - {len(BLOG)} blog posts")
     print(f"     - {len(needed)} images copied")
     if missing:
         print("  !! MISSING assets (fix these):")

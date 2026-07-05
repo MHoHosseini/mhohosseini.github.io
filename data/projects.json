@@ -8,6 +8,33 @@
   ],
   "projects": [
     {
+      "id": "padova-traffic-ot-flow",
+      "title": "Optimal-Transport Flow Matching for Traffic Forecasting",
+      "tagline": "A generative OT flow, stacked on a seasonal anchor, for long-horizon city traffic.",
+      "category": "Generative Models",
+      "importance": 0,
+      "featured": true,
+      "status": "University of Padova · Deep Learning challenge",
+      "year": "2026",
+      "image": "otflow.svg",
+      "tags": ["Optimal Transport", "Flow Matching", "Time series"],
+      "links": { "code": "", "paper": "", "reference": "https://arxiv.org/abs/2302.00482", "reference_label": "Tong et al., OT-CFM (2023)" },
+      "sections": [
+        { "heading": "Motivation", "body": [
+          "My most recent project — a University of Padova deep-learning challenge — forecasts traffic across 66 sensors in Padova over long horizons (hundreds of 10-minute steps). The scoring metric is mean absolute error, which is minimized by the *conditional median*, not the mean. That reframing turns forecasting into a question about distributions, and makes a generative model the natural instrument."
+        ]},
+        { "heading": "Method", "body": [
+          "The model is a hybrid. A seasonal **anchor** captures day-of-week/hour/minute structure as a strong climatological baseline. A shared **Transformer trunk** attends across sensors — fed sensor geometry, time features, and learned embeddings. On top sit two heads: a **deterministic** residual head (median-aligned, L1) and a generative **optimal-transport conditional flow-matching** head. Predictions are combined by honest-holdout arbitration and stagewise stacking across five random seeds."
+        ]},
+        { "heading": "Mathematical core", "body": [
+          "Flow matching learns a velocity field $v_\\theta$ that transports noise to data along a probability path. Using an *optimal-transport* coupling of $x_0\\sim\\mathcal{N}(0,I)$ and data $x_1$ (here an exact 1-D minibatch OT / rank pairing), the interpolant becomes a straight line, its target velocity is constant, and just a few Euler steps integrate it accurately."
+        ], "equation": "\\mathcal{L}_{\\text{OT-CFM}} = \\mathbb{E}_{t,\\,(x_0,x_1)\\sim\\pi_{\\text{OT}}}\\Big[\\big\\lVert v_\\theta(x_t, t\\mid c) - (x_1 - x_0)\\big\\rVert^2\\Big],\\quad x_t = (1-t)x_0 + t x_1" },
+        { "heading": "Inference & results", "body": [
+          "At inference the generative head samples $K$ noise seeds, integrates the ODE $\\dot{x} = v_\\theta(x,t\\mid c)$, and takes the **per-cell median** — the statistically correct point estimate under MAE. Ensembling and honest validation guard every added parameter against overfitting. The project ties together the threads I care about most: optimal transport, generative flows, and the analysis of stochastic dynamics, applied to real structured data."
+        ]}
+      ]
+    },
+    {
       "id": "probabilistic-diffusion",
       "title": "Probabilistic Diffusion",
       "tagline": "Turn noise into structure by learning to reverse a gradual diffusion.",

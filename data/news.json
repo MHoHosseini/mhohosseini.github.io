@@ -1,8 +1,16 @@
 {
   "news": [
     {
+      "date": "2026",
+      "html": "New flagship project: <em>Optimal-Transport Flow Matching for Traffic Forecasting</em> — a generative OT flow for a University of Padova deep-learning challenge."
+    },
+    {
+      "date": "2025-10",
+      "html": "Started an M.Sc. in <strong>Computer Science at the University of Padova</strong>, steering toward pure mathematics & generative models."
+    },
+    {
       "date": "2025-01",
-      "html": "New manuscript in preparation: <em>Boosting the SDE Framework of Generative Models towards Time-Series Data</em>."
+      "html": "Manuscript in preparation: <em>Boosting the SDE Framework of Generative Models towards Time-Series Data</em>."
     },
     {
       "date": "2024",
