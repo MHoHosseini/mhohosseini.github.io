@@ -87,9 +87,13 @@ post), `/cv/`, plus `404.html`, `sitemap.xml`, `robots.txt`, `favicon.svg`, and
 The homepage opens with a **full-screen ODE/SDE "trailer"** (`src/js/dynamics.js`)
 above everything else: pick one of ten dynamical systems and watch an ensemble
 propagate over its live vector-field geometry (streaks, fixed points, reference
-grid), then scroll down to the name + portrait and the rest of the site. The site
-mark is a minimal two-arm **cyclone** (spiral) defined in `build.py` (`GLYPH` for
-the nav, `FAVICON` for the tab icon).
+grid). You can also set the **curvature of the space** the particles live in —
+Euclidean, Spherical, or Hyperbolic — via one conformal metric
+`ds² = 4(dx²+dy²)/(1+κr²)²`; Brownian motion then diffuses with coefficient `1/λ`,
+so curvature is felt, not just drawn (hyperbolic walkers flee to the Poincaré
+boundary, spherical ones stay recurrent). Scroll down to reach the name +
+portrait and the rest of the site. The site mark is a minimal two-arm **cyclone**
+(spiral) defined in `build.py` (`GLYPH` for the nav, `FAVICON` for the tab icon).
 
 ---
 
@@ -214,8 +218,11 @@ most recent posts also appear in the homepage "Writing" section. Run
   `nodeCount()` (density), `COLORS`, flow strength, `linkDist`, cursor radius.
 - **Landing ODE/SDE panel** — `src/js/dynamics.js`. The `SYSTEMS` array defines
   each system: its `name`, `kind` (`"ODE"`/`"SDE"`), display `eq`, `note`, the
-  vector field `f(x, y)`, and the noise level `sigma`. Add or remove a system by
-  editing that array — the selector buttons build themselves.
+  vector field `f(x, y)`, the noise level `sigma`, and its `fixed` points
+  (`sink`/`source`/`saddle`/`center`). Add or remove a system by editing that
+  array — the selector buttons build themselves. Curvature is the `GEOMS` map +
+  the conformal factor `lam()`; the default geometry/curvature are the `geom` and
+  `curv` variables.
 - **Logo / favicon** — the cyclone mark lives in `build.py` (`GLYPH`, `FAVICON`,
   and the `_CYC0`/`_CYC1` spiral paths).
 

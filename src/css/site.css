@@ -525,6 +525,20 @@ footer.site {
 }
 .dyn-btn:hover { color: var(--text-strong); border-color: var(--border-strong); transform: translateY(-1px); }
 .dyn-btn.active { color: #04101a; background: linear-gradient(120deg, var(--cyan), var(--violet)); border-color: transparent; box-shadow: 0 8px 22px -10px var(--glow-cyan); }
+/* geometry (curvature) controls */
+.geo-btn {
+  font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted);
+  background: rgba(10,16,34,0.5); border: 1px solid var(--border); border-radius: 999px;
+  padding: 0.4rem 0.85rem; cursor: pointer; transition: all 0.2s var(--ease);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.geo-btn:hover { color: var(--text-strong); border-color: var(--border-strong); transform: translateY(-1px); }
+.geo-btn.active { color: #120c04; background: linear-gradient(120deg, var(--gold), var(--cyan)); border-color: transparent; box-shadow: 0 8px 22px -10px var(--glow-gold); }
+.dyn-curv { display: inline-flex; align-items: center; gap: 0.55rem; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-dim); transition: opacity 0.2s; }
+.dyn-curv.disabled { opacity: 0.32; pointer-events: none; }
+.dyn-curv input[type="range"] { -webkit-appearance: none; appearance: none; width: 92px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--violet), var(--cyan)); outline: none; cursor: pointer; }
+.dyn-curv input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 13px; height: 13px; border-radius: 50%; background: var(--text-strong); border: 2px solid var(--cyan); box-shadow: 0 0 8px var(--glow-cyan); cursor: pointer; }
+.dyn-curv input[type="range"]::-moz-range-thumb { width: 13px; height: 13px; border-radius: 50%; background: var(--text-strong); border: 2px solid var(--cyan); box-shadow: 0 0 8px var(--glow-cyan); cursor: pointer; }
 .trailer-scroll {
   position: absolute; left: 50%; bottom: 1.3rem; transform: translateX(-50%); z-index: 3; pointer-events: auto;
   display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
@@ -604,6 +618,9 @@ footer.site {
 }
 @media (max-width: 560px) {
   body { font-size: 16px; }
+  .trailer { height: auto; }
+  .trailer-scroll { display: none; }
+  .trailer-inner { padding-bottom: 2.4rem; }
   .btn-row { width: 100%; }
   .btn { flex: 1; justify-content: center; }
   .filter-search { margin-left: 0; width: 100%; }
