@@ -226,18 +226,25 @@ Both animations fall back to a single static frame under `prefers-reduced-motion
 ## 6. Deploy (GitHub Pages)
 
 Deployment is automated by `.github/workflows/deploy.yml`: on every push to
-`main` it runs `python build.py` and publishes `dist/` to the **`gh-pages`**
-branch.
+`main` it runs `python build.py`, uploads `dist/` as a Pages artifact, and
+deploys it with GitHub's official `deploy-pages` action.
 
-**One-time setup:** repo **Settings → Pages → Build and deployment → Source →
-“Deploy from a branch” → branch `gh-pages` / `root`**. (This is the default for
-most `<user>.github.io` repos, so it may already be set.)
+**One-time setup (required):** repo **Settings → Pages → Build and deployment →
+Source → “GitHub Actions”**.
 
-Prefer GitHub's native Actions deployment? The workflow file contains a
-ready-to-use alternative job — see its trailing comment.
+This is the single, canonical deploy path. It replaces the older `gh-pages`
+branch push, so GitHub's automatic *“pages build and deployment”* workflow no
+longer runs — which removes the two-path conflict that caused
+`Error: Deployment failed, try again later`. You can delete the now-unused
+`gh-pages` branch.
 
-Custom domain: add a `CNAME` file (build.py writes `.nojekyll` so Pages won't
-re-run Jekyll on the output).
+If a deploy still fails at the `deploy` step: check **Settings → Environments →
+`github-pages`** for a branch restriction that excludes `main` or a required
+reviewer, confirm the repo is public (or Pages is enabled on your plan), and see
+[githubstatus.com](https://www.githubstatus.com).
+
+Custom domain: add a `CNAME` file (build.py writes `.nojekyll`, so Pages serves
+the built output as-is).
 
 ---
 

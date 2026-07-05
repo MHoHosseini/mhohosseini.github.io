@@ -1,11 +1,13 @@
 name: Build & Deploy
 
-# Builds the static site with build.py and publishes dist/ to the gh-pages
-# branch, which GitHub Pages serves. No repo settings change is required if
-# Pages is already set to "Deploy from a branch → gh-pages".
+# Builds the static site with build.py and deploys it to GitHub Pages using the
+# official GitHub Actions path (upload-pages-artifact + deploy-pages).
 #
-# Prefer GitHub's native Pages deployment instead? See the commented job at the
-# bottom of this file and set Pages → Source → "GitHub Actions" in repo settings.
+# ONE-TIME SETUP (required): repo Settings -> Pages -> Build and deployment ->
+#   Source -> "GitHub Actions".
+# This is the single, canonical deploy path — it replaces the old gh-pages
+# branch push, so GitHub's automatic "pages build and deployment" no longer runs
+# and there is no deploy conflict. The gh-pages branch can be deleted.
 
 on:
   push:
@@ -13,14 +15,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
+# Allow one concurrent deployment; don't cancel an in-progress one.
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,39 +39,18 @@ jobs:
       - name: Build static site
         run: python build.py
 
-      - name: Deploy to gh-pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          folder: dist
-          branch: gh-pages
-          clean: true
+          path: dist
 
-# ---------------------------------------------------------------------------
-# Alternative: GitHub-native Pages deployment.
-# To use it, delete the job above, uncomment below, and set
-# Settings → Pages → Source → "GitHub Actions".
-#
-# permissions:
-#   contents: read
-#   pages: write
-#   id-token: write
-#
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v4
-#       - uses: actions/setup-python@v5
-#         with: { python-version: "3.12" }
-#       - run: python build.py
-#       - uses: actions/upload-pages-artifact@v3
-#         with: { path: dist }
-#   deploy:
-#     needs: build
-#     runs-on: ubuntu-latest
-#     environment:
-#       name: github-pages
-#       url: ${{ steps.deployment.outputs.page_url }}
-#     steps:
-#       - id: deployment
-#         uses: actions/deploy-pages@v4
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
