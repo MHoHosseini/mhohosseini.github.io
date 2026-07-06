@@ -1,8 +1,11 @@
 /* =========================================================================
-   Cosmos — a latent-space observatory background.
-   A vanilla 2D-canvas particle/constellation field with flow-field drift,
-   gentle cursor attraction, and a slow "diffusion" breathing of structure.
-   No dependencies. Respects prefers-reduced-motion. Pauses when hidden.
+   Cosmos — an optimal-transport background.
+   A few clouds of "mass" (Gaussian components) are repeatedly transported
+   between distributions via displacement interpolation: each particle rides a
+   straight transport path as one measure morphs into the next, while faint
+   threads trace the coupling. Replaces the old constellation graph.
+   Vanilla 2D canvas, no dependencies. Respects prefers-reduced-motion,
+   pauses when hidden, gently parts around the cursor.
    ========================================================================= */
 (function () {
   "use strict";
@@ -13,199 +16,95 @@
   if (!ctx) return;
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   var DPR = Math.min(window.devicePixelRatio || 1, 2);
-  var W = 0, H = 0;
-  var nodes = [];
+  var W = 0, H = 0, raf = null, phase = 0;
+  var PI = Math.PI, TAU = PI * 2;
+  var COLORS = ["56,225,214", "76,141,255", "166,137,251"]; // cyan / blue / violet
   var pointer = { x: -9999, y: -9999, active: false };
-  var t = 0;
-  var raf = null;
-
-  var COLORS = ["56,225,214", "76,141,255", "166,137,251"]; // cyan, blue, violet
+  var K = 3;            // Gaussian components (mass lumps)
+  var comps = [];       // { src, tgt } affine configs per component
+  var parts = [];       // { zx, zy, ci, c, r }
 
   function rand(a, b) { return a + Math.random() * (b - a); }
+  function randn() { var u = 1 - Math.random(), v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(TAU * v); }
+  function ease(t) { return t * t * (3 - 2 * t); }
 
-  function nodeCount() {
-    var area = window.innerWidth * window.innerHeight;
-    // roughly one node per ~14k px², capped for performance / mobile
-    var n = Math.round(area / 14000);
-    var cap = window.innerWidth < 720 ? 46 : 110;
-    return Math.max(26, Math.min(n, cap));
+  // a random anisotropic Gaussian: mean + covariance factor M = R(ang)·diag(sx,sy)
+  function newConfig() {
+    var m = Math.min(W, H), ang = rand(0, PI), sx = rand(0.05, 0.17) * m, sy = rand(0.03, 0.12) * m;
+    var c = Math.cos(ang), s = Math.sin(ang);
+    return { mx: rand(0.14, 0.86) * W, my: rand(0.14, 0.86) * H, a: c * sx, b: -s * sy, cc: s * sx, d: c * sy };
+  }
+  function P(cfg, zx, zy) { return [cfg.mx + cfg.a * zx + cfg.b * zy, cfg.my + cfg.cc * zx + cfg.d * zy]; }
+
+  function count() {
+    var a = window.innerWidth * window.innerHeight;
+    return Math.max(60, Math.min(Math.round(a / 9500), window.innerWidth < 720 ? 100 : 240));
   }
 
-  function makeNode() {
-    return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: rand(-0.15, 0.15),
-      vy: rand(-0.15, 0.15),
-      r: rand(0.7, 1.9),
-      c: COLORS[(Math.random() * COLORS.length) | 0],
-      bright: Math.random() < 0.16 // a few "signal" stars
-    };
+  function build() {
+    comps = []; for (var k = 0; k < K; k++) comps.push({ src: newConfig(), tgt: newConfig() });
+    var n = count(); parts = [];
+    for (var i = 0; i < n; i++) parts.push({ zx: randn() * 0.92, zy: randn() * 0.92, ci: i % K, c: COLORS[(Math.random() * 3) | 0], r: Math.random() < 0.12 ? 2.1 : 1.4 });
   }
 
   function resize() {
-    var w = window.innerWidth, h = window.innerHeight;
-    W = w; H = h;
-    canvas.width = Math.floor(w * DPR);
-    canvas.height = Math.floor(h * DPR);
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
+    var w = window.innerWidth, h = window.innerHeight; W = w; H = h;
+    canvas.width = Math.floor(w * DPR); canvas.height = Math.floor(h * DPR);
+    canvas.style.width = w + "px"; canvas.style.height = h + "px";
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    var target = nodeCount();
-    if (nodes.length === 0) {
-      for (var i = 0; i < target; i++) nodes.push(makeNode());
-    } else {
-      while (nodes.length < target) nodes.push(makeNode());
-      while (nodes.length > target) nodes.pop();
-    }
+    if (parts.length === 0) build();
+    else for (var k = 0; k < K; k++) { comps[k].src = newConfig(); comps[k].tgt = newConfig(); }
   }
 
-  // Smooth, cheap flow-field angle — evolves slowly with time (curl-like drift)
-  function flow(x, y) {
-    var s = 0.0016;
-    return (
-      Math.sin(x * s + t * 0.0006) +
-      Math.cos(y * s * 1.3 - t * 0.0005) +
-      Math.sin((x + y) * s * 0.7 + t * 0.0003)
-    ) * 1.9;
-  }
-
-  function step() {
-    // slow "diffusion" breathing: link distance condenses (denoise) and
-    // disperses (noise) over a long cycle
-    var breathe = 0.5 + 0.5 * Math.sin(t * 0.00016);
-    var linkDist = 118 + breathe * 34;
-    var linkDist2 = linkDist * linkDist;
-
+  function draw() {
+    var e = ease(phase);
     ctx.clearRect(0, 0, W, H);
-
-    var i, n;
-    // integrate motion
-    for (i = 0; i < nodes.length; i++) {
-      n = nodes[i];
-      var a = flow(n.x, n.y);
-      n.vx += Math.cos(a) * 0.008;
-      n.vy += Math.sin(a) * 0.008;
-
-      // gentle cursor attraction
+    // coupling threads — brightest mid-transport, gone at the settle points
+    var threadA = 0.05 * Math.sin(phase * PI);
+    if (threadA > 0.003) {
+      ctx.lineWidth = 1;
+      for (var i = 0; i < parts.length; i += 2) {
+        var p = parts[i], cf = comps[p.ci];
+        var s = P(cf.src, p.zx, p.zy), t = P(cf.tgt, p.zx, p.zy);
+        ctx.strokeStyle = "rgba(" + p.c + "," + threadA.toFixed(3) + ")";
+        ctx.beginPath(); ctx.moveTo(s[0], s[1]); ctx.lineTo(t[0], t[1]); ctx.stroke();
+      }
+    }
+    // mass at the displacement-interpolated position
+    for (var j = 0; j < parts.length; j++) {
+      var q = parts[j], cf2 = comps[q.ci];
+      var s2 = P(cf2.src, q.zx, q.zy), t2 = P(cf2.tgt, q.zx, q.zy);
+      var x = s2[0] + (t2[0] - s2[0]) * e, y = s2[1] + (t2[1] - s2[1]) * e;
       if (pointer.active) {
-        var dx = pointer.x - n.x, dy = pointer.y - n.y;
-        var d2 = dx * dx + dy * dy;
-        var R = 190;
-        if (d2 < R * R && d2 > 1) {
-          var d = Math.sqrt(d2);
-          var f = (1 - d / R) * 0.06;
-          n.vx += (dx / d) * f;
-          n.vy += (dy / d) * f;
-        }
+        var dx = x - pointer.x, dy = y - pointer.y, d2 = dx * dx + dy * dy, R = 175;
+        if (d2 < R * R && d2 > 1) { var d = Math.sqrt(d2), f = (1 - d / R) * 14; x += dx / d * f; y += dy / d * f; }
       }
-
-      n.vx *= 0.94; n.vy *= 0.94; // damping
-      var sp = Math.hypot(n.vx, n.vy), max = 0.9;
-      if (sp > max) { n.vx = n.vx / sp * max; n.vy = n.vy / sp * max; }
-      n.x += n.vx; n.y += n.vy;
-
-      // wrap around edges
-      var m = 30;
-      if (n.x < -m) n.x = W + m; else if (n.x > W + m) n.x = -m;
-      if (n.y < -m) n.y = H + m; else if (n.y > H + m) n.y = -m;
-    }
-
-    // spatial grid for O(n) edges
-    var cell = linkDist;
-    var cols = Math.max(1, Math.ceil(W / cell));
-    var grid = {};
-    for (i = 0; i < nodes.length; i++) {
-      n = nodes[i];
-      var gx = (n.x / cell) | 0, gy = (n.y / cell) | 0;
-      var key = gx + "," + gy;
-      (grid[key] || (grid[key] = [])).push(i);
-    }
-
-    // edges
-    ctx.lineWidth = 1;
-    for (i = 0; i < nodes.length; i++) {
-      n = nodes[i];
-      var cgx = (n.x / cell) | 0, cgy = (n.y / cell) | 0;
-      for (var ox = -1; ox <= 1; ox++) {
-        for (var oy = -1; oy <= 1; oy++) {
-          var bucket = grid[(cgx + ox) + "," + (cgy + oy)];
-          if (!bucket) continue;
-          for (var b = 0; b < bucket.length; b++) {
-            var j = bucket[b];
-            if (j <= i) continue;
-            var m2 = nodes[j];
-            var ddx = n.x - m2.x, ddy = n.y - m2.y;
-            var dd = ddx * ddx + ddy * ddy;
-            if (dd < linkDist2) {
-              var alpha = (1 - dd / linkDist2) * 0.22 * (0.6 + breathe * 0.4);
-              ctx.strokeStyle = "rgba(" + n.c + "," + alpha.toFixed(3) + ")";
-              ctx.beginPath();
-              ctx.moveTo(n.x, n.y);
-              ctx.lineTo(m2.x, m2.y);
-              ctx.stroke();
-            }
-          }
-        }
-      }
-    }
-
-    // nodes
-    for (i = 0; i < nodes.length; i++) {
-      n = nodes[i];
-      if (n.bright) {
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(" + n.c + ",0.10)";
-        ctx.arc(n.x, n.y, n.r * 4.5, 0, 6.2832);
-        ctx.fill();
-      }
-      ctx.beginPath();
-      ctx.fillStyle = "rgba(" + n.c + "," + (n.bright ? 0.95 : 0.6) + ")";
-      ctx.arc(n.x, n.y, n.r, 0, 6.2832);
-      ctx.fill();
+      if (q.r > 2) { ctx.fillStyle = "rgba(" + q.c + ",0.10)"; ctx.beginPath(); ctx.arc(x, y, q.r * 3.4, 0, TAU); ctx.fill(); }
+      ctx.fillStyle = "rgba(" + q.c + "," + (q.r > 2 ? 0.92 : 0.6) + ")";
+      ctx.beginPath(); ctx.arc(x, y, q.r, 0, TAU); ctx.fill();
     }
   }
 
   function loop() {
-    t += 16;
-    step();
-    raf = requestAnimationFrame(loop);
+    phase += 0.0016; // ~10 s per transport cycle
+    if (phase >= 1) { phase = 0; for (var k = 0; k < K; k++) { comps[k].src = comps[k].tgt; comps[k].tgt = newConfig(); } }
+    draw(); raf = requestAnimationFrame(loop);
   }
-
   function start() { if (!raf) raf = requestAnimationFrame(loop); }
   function stop() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+  function staticFrame() { phase = 0.4; draw(); }
 
-  // ---- events ----
   var rt;
   window.addEventListener("resize", function () {
     clearTimeout(rt);
-    rt = setTimeout(function () {
-      DPR = Math.min(window.devicePixelRatio || 1, 2);
-      resize();
-      if (reduce) { step(); }
-    }, 160);
+    rt = setTimeout(function () { DPR = Math.min(window.devicePixelRatio || 1, 2); resize(); if (reduce) staticFrame(); }, 160);
   });
-
-  window.addEventListener("pointermove", function (e) {
-    pointer.x = e.clientX; pointer.y = e.clientY; pointer.active = true;
-  }, { passive: true });
+  window.addEventListener("pointermove", function (e) { pointer.x = e.clientX; pointer.y = e.clientY; pointer.active = true; }, { passive: true });
   window.addEventListener("pointerleave", function () { pointer.active = false; });
   window.addEventListener("blur", function () { pointer.active = false; });
+  document.addEventListener("visibilitychange", function () { if (reduce) return; if (document.hidden) stop(); else start(); });
 
-  document.addEventListener("visibilitychange", function () {
-    if (reduce) return;
-    if (document.hidden) stop(); else start();
-  });
-
-  // ---- init ----
   resize();
-  if (reduce) {
-    // single static constellation frame, no animation
-    t = 4000;
-    step();
-  } else {
-    start();
-  }
+  if (reduce) staticFrame(); else start();
 })();

@@ -1026,22 +1026,22 @@ def main():
     for js in ("cosmos.js", "app.js", "dynamics.js"):
         shutil.copy2(SRC / "js" / js, OUT / "assets" / "js" / js)
 
-    # ---- copy referenced images ----
+    # ---- copy images: every file in assets/img (so blog/news images "just work") ----
     img_out = OUT / "assets" / "img"
     img_out.mkdir(parents=True, exist_ok=True)
+    copied_imgs = 0
+    for src in sorted(IMG_SRC.glob("*")):
+        if src.is_file() and not src.name.startswith("."):
+            shutil.copy2(src, img_out / src.name)
+            copied_imgs += 1
+    # warn about referenced-but-missing images
     needed = {"prof_pic.jpg"}
     for p in projs:
         needed.add(p["image"])
     for t in TEACHING["teaching"]:
         if t.get("image"):
             needed.add(t["image"])
-    missing = []
-    for name in sorted(needed):
-        src = IMG_SRC / name
-        if src.exists():
-            shutil.copy2(src, img_out / name)
-        else:
-            missing.append(name)
+    missing = [n for n in sorted(needed) if not (IMG_SRC / n).exists()]
 
     # ---- copy CV pdf ----
     cv_out = OUT / "assets" / "cv"
@@ -1056,7 +1056,7 @@ def main():
     print(f"[ok] Built {n_pages} pages into {OUT}")
     print(f"     - {len(ordered)} project detail pages")
     print(f"     - {len(BLOG)} blog posts")
-    print(f"     - {len(needed)} images copied")
+    print(f"     - {copied_imgs} images copied")
     if missing:
         print("  !! MISSING assets (fix these):")
         for m in missing:
