@@ -322,6 +322,7 @@ def head(title, desc, canonical, math=False):
 <meta name="description" content="{esc_attr(desc)}">
 <meta name="keywords" content="{esc_attr(kw)}">
 <meta name="author" content="{esc_attr(SITE['full_name'])}">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="{esc_attr(canonical)}">
 <meta name="theme-color" content="#05070f">
 <meta property="og:type" content="website">
@@ -363,15 +364,26 @@ def _active_from_canonical(canonical):
 
 def ld_person():
     same = [u for u in [SITE["socials"].get("github"), SITE["socials"].get("twitter"),
-                        SITE["socials"].get("scholar"), SITE["socials"].get("linkedin")] if u]
-    data = {
-        "@context": "https://schema.org", "@type": "Person",
-        "name": SITE["full_name"], "alternateName": SITE["name"],
+                        SITE["socials"].get("scholar"), SITE["socials"].get("linkedin"),
+                        SITE["socials"].get("orcid")] if u]
+    person = {
+        "@type": "Person", "@id": BASE_URL + "/#person",
+        "name": SITE["full_name"],
+        "alternateName": SITE.get("alternate_names") or [SITE["name"]],
+        "givenName": SITE.get("given_name"), "familyName": SITE.get("family_name"),
         "url": BASE_URL + "/", "email": SITE["email"],
-        "image": OG_IMAGE, "jobTitle": SITE["role"],
-        "affiliation": {"@type": "Organization", "name": SITE["affiliation"]},
+        "image": OG_IMAGE, "jobTitle": SITE["role"], "description": SITE["description"],
+        "affiliation": {"@type": "Organization", "name": SITE["affiliation"],
+                        "url": SITE.get("affiliation_url")},
         "knowsAbout": SITE["keywords"], "sameAs": same,
     }
+    website = {
+        "@type": "WebSite", "@id": BASE_URL + "/#website", "url": BASE_URL + "/",
+        "name": SITE["full_name"], "alternateName": SITE["name"],
+        "author": {"@id": BASE_URL + "/#person"}, "about": SITE["keywords"], "inLanguage": "en",
+    }
+    person = {k: v for k, v in person.items() if v not in (None, "", [])}
+    data = {"@context": "https://schema.org", "@graph": [person, website]}
     return json.dumps(data, ensure_ascii=False)
 
 def navbar(active):
@@ -405,7 +417,7 @@ def footer(math=False, scripts=""):
   <div class="wrap foot-inner">
     <div class="foot-brand">{esc(SITE['name'])}</div>
     <div class="foot-meta">
-      © <span data-year>{date.today().year}</span> · Built from scratch — a latent-space observatory. {links}
+      © <span data-year>{date.today().year}</span> {esc(SITE['full_name'])} · Built from scratch — a latent-space observatory. {links}
     </div>
   </div>
 </footer>
@@ -632,7 +644,7 @@ def page_home():
 
     body = (trailer + hero + '<div class="wrap"><hr class="divider"></div>'
             + about + research + projects + pubs + writing + news + contact)
-    return (head(f"{SITE['name']} — {SITE['role']}", SITE["description"], BASE_URL + "/")
+    return (head(f"{SITE['full_name']} — {SITE['role']}", SITE["description"], BASE_URL + "/")
             + body + footer(scripts='<script src="/assets/js/dynamics.js" defer></script>'))
 
 
