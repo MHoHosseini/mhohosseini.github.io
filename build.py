@@ -313,6 +313,8 @@ window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [[
 def head(title, desc, canonical, math=False):
     kw = ", ".join(SITE["keywords"])
     m = MATHJAX if math else ""
+    gsv = (f'\n<meta name="google-site-verification" content="{esc_attr(SITE["google_site_verification"])}">'
+           if SITE.get("google_site_verification") else "")
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -322,7 +324,7 @@ def head(title, desc, canonical, math=False):
 <meta name="description" content="{esc_attr(desc)}">
 <meta name="keywords" content="{esc_attr(kw)}">
 <meta name="author" content="{esc_attr(SITE['full_name'])}">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">{gsv}
 <link rel="canonical" href="{esc_attr(canonical)}">
 <meta name="theme-color" content="#05070f">
 <meta property="og:type" content="website">
